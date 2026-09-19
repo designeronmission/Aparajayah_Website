@@ -1,0 +1,864 @@
+from pathlib import Path
+import zipfile
+
+root = Path("/mnt/data/aparajayah-website-prototype")
+root.mkdir(parents=True, exist_ok=True)
+
+html = r'''<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Aparajayah Technologies — AI-Native Engineering for Scalable Digital Business.">
+  <title>Aparajayah Technologies | AI-Native Engineering</title>
+
+  <!-- Bootstrap 5 -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <!-- Bootstrap Icons -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+  <!-- Google Font -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <style>
+    
+:root {
+  --bg: #030611;
+  --bg-2: #070b19;
+  --panel: rgba(13, 20, 43, .72);
+  --panel-strong: #0b1228;
+  --border: rgba(146, 122, 255, .20);
+  --text: #f5f7ff;
+  --muted: #a8b0c8;
+  --purple: #7c3aed;
+  --purple-2: #9b6cff;
+  --blue: #2563eb;
+  --cyan: #22d3ee;
+}
+
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  margin: 0;
+  background:
+    radial-gradient(circle at 30% 40%, rgba(124, 58, 237, .16), transparent 32%),
+    radial-gradient(circle at 85% 15%, rgba(37, 99, 235, .13), transparent 28%),
+    var(--bg);
+  color: var(--text);
+  font-family: "Inter", sans-serif;
+  overflow-x: hidden;
+}
+a { color: inherit; text-decoration: none; }
+p { color: var(--muted); line-height: 1.75; }
+h1,h2,h3,h4,h5,h6 { letter-spacing: -.035em; }
+.section-space { padding: 110px 0; }
+.section-alt { background: linear-gradient(180deg, rgba(8, 12, 28, .75), rgba(3, 6, 17, .45)); border-top: 1px solid rgba(255,255,255,.035); border-bottom: 1px solid rgba(255,255,255,.035); }
+.page-glow { position: fixed; width: 520px; height: 520px; border-radius: 50%; filter: blur(100px); opacity: .10; pointer-events: none; z-index: -1; }
+.glow-one { background: #7c3aed; left: -300px; top: 20%; }
+.glow-two { background: #2563eb; right: -300px; top: 65%; }
+
+.site-nav {
+  background: rgba(3,6,17,.68);
+  backdrop-filter: blur(18px);
+  border-bottom: 1px solid rgba(255,255,255,.06);
+  transition: .3s ease;
+}
+.site-nav .nav-link { color: #aeb6ce; font-size: 13px; padding: 20px 13px !important; }
+.site-nav .nav-link:hover, .site-nav .nav-link.active { color: #fff; }
+.navbar-brand { font-weight: 700; font-size: 17px; }
+.brand-mark {
+  width: 24px; height: 24px; position: relative; display: inline-block;
+  transform: rotate(30deg);
+  background: linear-gradient(145deg, #a77cff, #4f22b5);
+  clip-path: polygon(50% 0, 100% 100%, 50% 75%, 0 100%);
+}
+.brand-mark span { position: absolute; width: 7px; height: 12px; background: #030611; left: 9px; top: 5px; clip-path: polygon(50% 0,100% 100%,0 100%); }
+
+.btn-primary-glow {
+  background: linear-gradient(135deg, #7c3aed, #5b21b6);
+  border: 1px solid rgba(188,166,255,.4);
+  color: white;
+  box-shadow: 0 0 28px rgba(124,58,237,.28);
+}
+.btn-primary-glow:hover { color: #fff; transform: translateY(-1px); box-shadow: 0 0 35px rgba(124,58,237,.45); }
+.btn-outline-light-soft { border: 1px solid rgba(255,255,255,.18); color: #e9ebf7; background: rgba(255,255,255,.025); }
+.btn-outline-light-soft:hover { color: #fff; border-color: rgba(255,255,255,.4); background: rgba(255,255,255,.07); }
+
+.hero-section { min-height: 800px; display: flex; align-items: center; padding-top: 145px; }
+.eyebrow { color: #9b79ff; font-size: 11px; font-weight: 700; letter-spacing: .15em; margin-bottom: 18px; }
+.eyebrow span { display: inline-block; width: 6px; height: 6px; border-radius: 50%; background: #9b79ff; margin-right: 8px; box-shadow: 0 0 14px #9b79ff; }
+.hero-title { font-size: clamp(42px, 5vw, 72px); line-height: 1.02; font-weight: 800; max-width: 760px; }
+.gradient-text { background: linear-gradient(90deg, #fff 5%, #a98aff 45%, #5ccfff 100%); -webkit-background-clip: text; background-clip: text; color: transparent; }
+.hero-copy { font-size: 17px; max-width: 650px; margin-top: 25px; }
+.hero-meta { display: flex; gap: 22px; flex-wrap: wrap; color: #8e97b4; font-size: 12px; }
+.hero-meta i { color: #9b79ff; margin-right: 6px; }
+
+.hero-visual { height: 520px; position: relative; display: flex; justify-content: center; align-items: center; }
+.orbital { position: absolute; border: 1px solid rgba(132,98,255,.28); border-radius: 50%; transform: rotate(-18deg); box-shadow: inset 0 0 50px rgba(93,34,233,.06), 0 0 35px rgba(93,34,233,.08); }
+.orbital-a { width: 420px; height: 210px; }
+.orbital-b { width: 510px; height: 255px; transform: rotate(50deg); }
+.orbital-c { width: 310px; height: 430px; transform: rotate(72deg); }
+.ai-core {
+  width: 170px; height: 170px; border-radius: 50%;
+  display: grid; place-items: center;
+  background: radial-gradient(circle, rgba(146,103,255,.4), rgba(26,16,69,.9) 58%, transparent 70%);
+  box-shadow: 0 0 70px rgba(124,58,237,.4);
+  position: relative; z-index: 2;
+}
+.ai-core-inner {
+  width: 100px; height: 100px; border-radius: 25px;
+  background: linear-gradient(145deg, #7351db, #1a1550);
+  border: 1px solid rgba(208,193,255,.45);
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  transform: rotate(45deg);
+  box-shadow: inset 0 0 35px rgba(255,255,255,.08), 0 15px 50px rgba(0,0,0,.4);
+}
+.ai-core-inner .ai-label, .ai-core-inner small { transform: rotate(-45deg); }
+.ai-label { font-size: 27px; font-weight: 800; }
+.ai-core-inner small { font-size: 7px; letter-spacing: .2em; color: #c8baff; }
+.orbit-node {
+  position: absolute; width: 48px; height: 48px; border-radius: 15px; z-index: 3;
+  display: grid; place-items: center; color: #c7b8ff;
+  background: rgba(22,20,65,.85); border: 1px solid rgba(145,117,255,.45);
+  box-shadow: 0 0 24px rgba(93,34,233,.2);
+}
+.node-top { top: 45px; left: 48%; }
+.node-right { right: 5%; top: 46%; }
+.node-bottom { bottom: 50px; left: 47%; }
+.node-left { left: 6%; top: 47%; }
+.floating-chip {
+  position: absolute; z-index: 4; padding: 7px 12px; border: 1px solid rgba(130,104,255,.3);
+  background: rgba(8,11,30,.82); border-radius: 10px; color: #c7bcff; font-size: 10px; box-shadow: 0 8px 30px rgba(0,0,0,.25);
+}
+.chip-one { top: 22%; left: 10%; } .chip-two { top: 15%; right: 16%; }
+.chip-three { bottom: 22%; left: 14%; } .chip-four { bottom: 14%; right: 10%; }
+
+.capability-strip { border-top: 1px solid rgba(255,255,255,.06); border-bottom: 1px solid rgba(255,255,255,.06); background: rgba(9,13,31,.6); overflow: hidden; }
+.capability-track { min-height: 68px; display: flex; align-items: center; justify-content: space-between; gap: 22px; white-space: nowrap; color: #aeb7d0; font-size: 11px; }
+.capability-track b { color: #7045df; }
+
+.section-heading { margin-bottom: 35px; }
+.section-heading h2, section h2 { font-size: clamp(32px, 4vw, 50px); line-height: 1.08; font-weight: 750; }
+.section-heading p { max-width: 650px; margin-top: 14px; }
+.text-link { color: #bcaaff; font-size: 13px; }
+.text-link:hover { color: white; }
+
+.glass-card {
+  height: 100%; padding: 27px; border-radius: 18px;
+  background: linear-gradient(145deg, rgba(17,26,57,.86), rgba(8,13,31,.8));
+  border: 1px solid var(--border);
+  box-shadow: 0 20px 60px rgba(0,0,0,.18);
+  transition: .3s ease;
+}
+.glass-card:hover { transform: translateY(-5px); border-color: rgba(157,127,255,.45); box-shadow: 0 25px 70px rgba(72,32,173,.16); }
+.icon-box { width: 44px; height: 44px; border-radius: 13px; display: grid; place-items: center; background: rgba(124,58,237,.14); border: 1px solid rgba(157,127,255,.25); color: #b79cff; margin-bottom: 25px; }
+.solution-card h3 { font-size: 17px; margin-bottom: 10px; }
+.solution-card p { font-size: 13px; min-height: 70px; }
+.solution-card a, .case-card a { color: #bba8ff; font-size: 12px; font-weight: 600; }
+
+.feature-list { display: grid; gap: 13px; margin-top: 25px; }
+.feature-list div { font-size: 13px; color: #c5cbe0; }
+.feature-list i { color: #9d7cff; margin-right: 9px; }
+
+.workflow-panel, .rag-panel, .contact-form {
+  border: 1px solid rgba(141,115,255,.22); border-radius: 22px;
+  background: linear-gradient(145deg, rgba(17,24,55,.9), rgba(7,11,27,.84));
+  box-shadow: 0 25px 80px rgba(0,0,0,.24);
+}
+
+
+.workflow-panel { padding: 28px; }
+.panel-top { display: flex; justify-content: space-between; color: #d8dbec; font-size: 12px; }
+.live-dot { color: #8e97b4; font-size: 9px; }
+.live-dot i { width: 6px; height: 6px; display: inline-block; background: #56e3ae; border-radius: 50%; box-shadow: 0 0 10px #56e3ae; margin-right: 5px; }
+.workflow-row { display: flex; align-items: center; justify-content: center; gap: 10px; margin: 60px 0 45px; }
+.workflow-node { width: 78px; height: 78px; border-radius: 18px; border: 1px solid rgba(141,115,255,.24); background: rgba(7,11,30,.85); display: flex; flex-direction: column; justify-content: center; align-items: center; gap: 6px; color: #aeb7d0; }
+.workflow-node i { font-size: 20px; color: #9c7bff; }
+.workflow-node small { font-size: 9px; }
+.workflow-node.active { background: linear-gradient(145deg, rgba(113,65,231,.45), rgba(24,16,66,.9)); border-color: rgba(180,153,255,.5); box-shadow: 0 0 35px rgba(124,58,237,.18); }
+.flow-line { width: 60px; height: 1px; background: linear-gradient(90deg, transparent, #7c5be8, transparent); }
+.workflow-message { display: flex; gap: 14px; align-items: center; border: 1px solid rgba(255,255,255,.07); background: rgba(255,255,255,.025); border-radius: 15px; padding: 15px; }
+.avatar { width: 37px; height: 37px; border-radius: 12px; display: grid; place-items: center; background: #5730be; font-size: 10px; font-weight: 700; }
+.workflow-message small { color: #9b79ff; }
+.workflow-message p { font-size: 12px; margin: 4px 0 0; }
+.workflow-tabs { display: flex; gap: 22px; margin-top: 20px; color: #727c9c; font-size: 10px; }
+.workflow-tabs .active { color: #bcaaff; }
+
+.rag-panel { padding: 55px; overflow: hidden; position: relative; }
+.rag-panel::before { content: ""; position: absolute; width: 400px; height: 400px; right: -160px; top: -150px; background: #6337dc; opacity: .13; filter: blur(90px); border-radius: 50%; }
+.rag-flow { display: flex; align-items: center; justify-content: center; gap: 8px; flex-wrap: wrap; }
+.rag-flow > i { color: #7652d9; font-size: 13px; }
+.rag-step { min-width: 82px; height: 95px; padding: 10px; border: 1px solid rgba(141,115,255,.22); background: rgba(4,8,22,.65); border-radius: 14px; display: flex; flex-direction: column; justify-content: center; align-items: center; gap: 8px; text-align: center; }
+.rag-step i { color: #a989ff; font-size: 18px; }
+.rag-step span { font-size: 8px; color: #9da6c1; }
+.rag-step.highlight { border-color: rgba(161,126,255,.6); box-shadow: 0 0 30px rgba(124,58,237,.22); }
+
+.security-grid { display: flex; flex-wrap: wrap; gap: 10px; }
+.security-grid div { min-width: 110px; flex: 1; padding: 15px 12px; border: 1px solid rgba(141,115,255,.17); background: rgba(10,15,35,.7); border-radius: 13px; text-align: center; }
+.security-grid i { display: block; color: #a184ff; font-size: 18px; margin-bottom: 8px; }
+.security-grid span { font-size: 9px; color: #9ca6c0; }
+.security-visual { height: 330px; position: relative; display: grid; place-items: center; }
+.shield-ring { width: 260px; height: 260px; border-radius: 50%; border: 1px solid rgba(127,92,236,.25); box-shadow: 0 0 80px rgba(124,58,237,.12); }
+.shield-core { position: absolute; width: 115px; height: 115px; border-radius: 30px; display: grid; place-items: center; background: linear-gradient(145deg,#5630c5,#171337); border: 1px solid rgba(188,165,255,.4); transform: rotate(45deg); box-shadow: 0 0 70px rgba(124,58,237,.28); }
+.shield-core i { transform: rotate(-45deg); font-size: 38px; color: #d2c5ff; }
+.security-pulse { position: absolute; width: 9px; height: 9px; border-radius: 50%; background: #9d7cff; box-shadow: 0 0 20px #9d7cff; }
+.p1 { top: 30px; right: 30px; } .p2 { bottom: 45px; left: 30px; }
+
+.industry-card { height: 190px; position: relative; overflow: hidden; border-radius: 16px; border: 1px solid rgba(141,115,255,.15); background: #080d1f; transition: .3s; }
+.industry-card:hover { transform: translateY(-4px); border-color: rgba(160,130,255,.4); }
+.industry-card span { position: absolute; left: 15px; right: 15px; bottom: 15px; font-size: 12px; font-weight: 600; z-index: 2; }
+.industry-art, .case-art { position: absolute; inset: 0; background: linear-gradient(135deg, #111b42, #24105d 55%, #07142f); }
+.industry-art::after, .case-art::after { content: ""; position: absolute; inset: 0; background: linear-gradient(180deg, transparent 25%, rgba(2,5,15,.95)); }
+.art-bank::before, .art-open::before, .art-enterprise::before, .art-education::before, .art-saas::before, .art-csr::before, .art-retail::before, .art-lending::before, .art-rag::before, .art-erp::before {
+  content: ""; position: absolute; width: 95px; height: 95px; left: 50%; top: 38%; transform: translate(-50%,-50%) rotate(45deg);
+  border: 1px solid rgba(160,130,255,.55); box-shadow: 0 0 60px rgba(83,45,189,.4); background: linear-gradient(145deg, rgba(124,58,237,.4), rgba(37,99,235,.05));
+}
+.art-open::before { border-radius: 50%; }
+.art-enterprise::before { width: 130px; height: 70px; transform: translate(-50%,-50%) rotate(0); }
+.art-education::before { width: 70px; height: 110px; transform: translate(-50%,-50%) rotate(0); border-radius: 12px; }
+.art-saas::before { width: 110px; height: 75px; transform: translate(-50%,-50%) rotate(0); border-radius: 12px; }
+.art-csr::before { border-radius: 18px; transform: translate(-50%,-50%) rotate(0); }
+.art-retail::before { width: 120px; height: 80px; transform: translate(-50%,-50%) rotate(0); }
+.industry-cta { display: grid; place-items: center; background: radial-gradient(circle at 50% 35%, rgba(124,58,237,.2), transparent 55%), #080d1f; }
+.industry-cta span { position: static; color: #bba7ff; }
+
+.architecture { display: flex; align-items: center; gap: 12px; }
+.arch-side { width: 110px; display: grid; gap: 15px; }
+.arch-side div { padding: 17px 8px; border: 1px solid rgba(141,115,255,.16); border-radius: 12px; text-align: center; background: rgba(9,13,32,.7); }
+.arch-side i { display: block; color: #a688ff; margin-bottom: 8px; }
+.arch-side span { font-size: 8px; color: #8e98b4; }
+.arch-stack { flex: 1; display: grid; gap: 8px; }
+.arch-layer { border-radius: 9px; padding: 13px 18px; font-size: 11px; font-weight: 600; border: 1px solid rgba(255,255,255,.12); text-align: center; }
+.arch-layer small { display: block; font-size: 8px; color: rgba(255,255,255,.7); font-weight: 400; margin-top: 3px; }
+.layer-blue { background: linear-gradient(90deg,#0b5fbd,#128ce8); }
+.layer-purple { background: linear-gradient(90deg,#5123b8,#7c3aed); }
+.layer-cyan { background: linear-gradient(90deg,#075d83,#0879a6); }
+.layer-green { background: linear-gradient(90deg,#08666c,#087b69); }
+
+.tech-principles { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 25px; }
+.tech-principles span { font-size: 10px; color: #b5bdd3; border: 1px solid rgba(141,115,255,.18); background: rgba(10,15,35,.65); padding: 9px 12px; border-radius: 10px; }
+.stack-card { height: 100%; padding: 20px; border: 1px solid rgba(141,115,255,.17); background: rgba(8,13,31,.75); border-radius: 14px; }
+.stack-card small { display: block; font-size: 8px; color: #7e89a7; letter-spacing: .1em; margin-bottom: 9px; }
+.stack-card strong { display: block; font-size: 13px; color: #d7dbee; }
+.stack-card span { display: block; font-size: 9px; color: #7e89a7; margin-top: 4px; }
+
+.case-card { overflow: hidden; border: 1px solid rgba(141,115,255,.18); border-radius: 18px; background: rgba(9,14,33,.8); }
+.case-art { height: 220px; position: relative; }
+.case-card small { color: #8d70f1; font-size: 9px; letter-spacing: .12em; }
+.case-card h3 { font-size: 18px; margin: 9px 0; }
+.case-card p { font-size: 12px; }
+.art-lending::before { border-radius: 20px; }
+.art-rag::before { border-radius: 50%; }
+.art-erp::before { width: 130px; height: 70px; transform: translate(-50%,-50%); border-radius: 10px; }
+.art-csr::before { border-radius: 50%; }
+
+.final-cta-section { padding-top: 50px; }
+.final-cta { padding: 50px; border-radius: 24px; border: 1px solid rgba(141,115,255,.23); background: radial-gradient(circle at 75% 50%, rgba(124,58,237,.25), transparent 40%), linear-gradient(145deg,#0d1430,#080c1d); display: flex; align-items: center; justify-content: space-between; gap: 35px; }
+.final-cta h2 { font-size: clamp(32px, 4vw, 48px); margin-bottom: 12px; }
+.final-cta p { max-width: 650px; margin-bottom: 0; }
+
+.contact-form { padding: 30px; }
+.contact-form label { display: block; color: #b7bfd5; font-size: 10px; margin: 0 0 7px 4px; }
+.contact-form input, .contact-form select, .contact-form textarea {
+  width: 100%; color: #e9ebf6; background: rgba(4,8,21,.75); border: 1px solid rgba(141,115,255,.17);
+  border-radius: 11px; padding: 12px 14px; outline: none; font-size: 12px;
+}
+.contact-form input:focus, .contact-form select:focus, .contact-form textarea:focus { border-color: rgba(157,127,255,.6); box-shadow: 0 0 0 3px rgba(124,58,237,.08); }
+.contact-form select option { background: #0a1023; }
+.success-message { display: none; color: #72e1b2; font-size: 11px; }
+
+.contact-points { display: grid; gap: 13px; margin-top: 28px; }
+.contact-points div { display: flex; align-items: center; gap: 12px; color: #aeb7d0; font-size: 12px; }
+.contact-points i { color: #a384ff; font-size: 17px; }
+
+.site-footer { background: #02040c; border-top: 1px solid rgba(255,255,255,.06); }
+.site-footer p { font-size: 12px; max-width: 300px; }
+.site-footer h6 { font-size: 11px; color: #e1e4f0; margin-bottom: 16px; }
+.site-footer a { display: block; color: #7e89a7; font-size: 11px; margin: 9px 0; }
+.site-footer a:hover { color: #c6b8ff; }
+.footer-bottom { border-top: 1px solid rgba(255,255,255,.06); padding: 18px 0; color: #59637e; font-size: 9px; }
+
+@media (max-width: 991.98px) {
+  .site-nav .nav-link { padding: 11px 0 !important; }
+  .site-nav .btn { margin: 10px 0 15px; }
+  .hero-section { min-height: auto; padding-top: 135px; }
+  .hero-visual { height: 440px; }
+  .section-space { padding: 80px 0; }
+  .capability-track { justify-content: flex-start; overflow-x: auto; padding: 0 5px; scrollbar-width: none; }
+  .capability-track::-webkit-scrollbar { display: none; }
+  .final-cta { flex-direction: column; align-items: flex-start; }
+}
+@media (max-width: 575.98px) {
+  .section-space { padding: 65px 0; }
+  .hero-title { font-size: 42px; }
+  .hero-copy { font-size: 15px; }
+  .hero-visual { height: 360px; transform: scale(.86); margin: -20px -20px; }
+  .orbital-a { width: 330px; height: 165px; }
+  .orbital-b { width: 400px; height: 200px; }
+  .orbital-c { width: 240px; height: 340px; }
+  .node-left { left: 1%; } .node-right { right: 1%; }
+  .chip-one { left: 2%; } .chip-two { right: 2%; }
+  .chip-three { left: 4%; } .chip-four { right: 2%; }
+  .rag-panel { padding: 30px 20px; }
+  .rag-flow { gap: 5px; }
+  .rag-flow > i { display: none; }
+  .rag-step { min-width: 78px; }
+  .architecture { flex-direction: column; }
+  .arch-side { width: 100%; grid-template-columns: 1fr 1fr; }
+  .final-cta { padding: 30px 22px; }
+  .contact-form { padding: 20px; }
+}
+  </style>>
+</head>
+
+<body>
+  <!-- Background decoration -->
+  <div class="page-glow glow-one"></div>
+  <div class="page-glow glow-two"></div>
+
+  <!-- NAVBAR -->
+  <nav class="navbar navbar-expand-lg navbar-dark fixed-top site-nav">
+    <div class="container">
+      <a class="navbar-brand d-flex align-items-center gap-2" href="#home">
+        <span class="brand-mark"><span></span></span>
+        <span>Aparajayah</span>
+      </a>
+
+      <button class="navbar-toggler border-0 shadow-none" type="button"
+              data-bs-toggle="collapse" data-bs-target="#mainNav"
+              aria-controls="mainNav" aria-expanded="false" aria-label="Toggle navigation">
+        <i class="bi bi-list fs-2"></i>
+      </button>
+
+      <div class="collapse navbar-collapse" id="mainNav">
+        <ul class="navbar-nav mx-auto mb-2 mb-lg-0">
+          <li class="nav-item"><a class="nav-link active" href="#home">Home</a></li>
+          <li class="nav-item"><a class="nav-link" href="#solutions">Solutions</a></li>
+          <li class="nav-item"><a class="nav-link" href="#industries">Industries</a></li>
+          <li class="nav-item"><a class="nav-link" href="#technology">Technology</a></li>
+          <li class="nav-item"><a class="nav-link" href="#insights">Insights</a></li>
+          <li class="nav-item"><a class="nav-link" href="#company">Company</a></li>
+        </ul>
+        <a href="#contact" class="btn btn-primary-glow rounded-pill px-4">Talk to Our Experts</a>
+      </div>
+    </div>
+  </nav>
+
+  <main id="home">
+
+    <!-- HERO -->
+    <section class="hero-section section-space">
+      <div class="container">
+        <div class="row align-items-center g-5">
+          <div class="col-lg-6">
+            <div class="eyebrow"><span></span> AI-NATIVE PLATFORM ENGINEERING</div>
+            <h1 class="hero-title">
+              Build Intelligent Digital Platforms with
+              <span class="gradient-text">AI, Cloud,</span>
+              and Fintech Engineering
+            </h1>
+            <p class="hero-copy">
+              We help businesses create, integrate, modernize, and scale secure digital
+              platforms across AI, SaaS, fintech, open banking, cloud, data, and automation.
+            </p>
+            <div class="d-flex flex-wrap gap-3 mt-4">
+              <a href="#contact" class="btn btn-primary-glow btn-lg rounded-pill px-4">Talk to Our Experts <i class="bi bi-arrow-up-right"></i></a>
+              <a href="#solutions" class="btn btn-outline-light-soft btn-lg rounded-pill px-4">Explore Solutions</a>
+            </div>
+            <div class="hero-meta mt-4">
+              <span><i class="bi bi-stars"></i> AI-Native</span>
+              <span><i class="bi bi-diagram-3"></i> API-First</span>
+              <span><i class="bi bi-cloud"></i> Cloud-Ready</span>
+            </div>
+          </div>
+
+          <div class="col-lg-6">
+            <div class="hero-visual">
+              <div class="orbital orbital-a"></div>
+              <div class="orbital orbital-b"></div>
+              <div class="orbital orbital-c"></div>
+
+              <div class="orbit-node node-top"><i class="bi bi-cpu"></i></div>
+              <div class="orbit-node node-right"><i class="bi bi-cloud-arrow-up"></i></div>
+              <div class="orbit-node node-bottom"><i class="bi bi-database"></i></div>
+              <div class="orbit-node node-left"><i class="bi bi-diagram-3"></i></div>
+
+              <div class="ai-core">
+                <div class="ai-core-inner">
+                  <span class="ai-label">AI</span>
+                  <small>ENGINE</small>
+                </div>
+              </div>
+
+              <div class="floating-chip chip-one">RAG</div>
+              <div class="floating-chip chip-two">ML</div>
+              <div class="floating-chip chip-three">API</div>
+              <div class="floating-chip chip-four">FINTECH</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CAPABILITIES -->
+    <section class="capability-strip">
+      <div class="container">
+        <div class="capability-track">
+          <span>AI</span><b>•</b><span>RAG</span><b>•</b><span>ML</span><b>•</b>
+          <span>Agentic Automation</span><b>•</b><span>SaaS</span><b>•</b>
+          <span>Fintech</span><b>•</b><span>Open Banking</span><b>•</b>
+          <span>Embedded Finance</span><b>•</b><span>DevOps</span><b>•</b>
+          <span>Cloud</span><b>•</b><span>API Integration</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- WHAT WE BUILD -->
+    <section id="solutions" class="section-space">
+      <div class="container">
+        <div class="section-heading d-flex justify-content-between align-items-end gap-4">
+          <div>
+            <div class="eyebrow">WHAT WE BUILD</div>
+            <h2>Technology foundations for <span class="gradient-text">modern businesses.</span></h2>
+            <p>End-to-end engineering capabilities designed around real business workflows.</p>
+          </div>
+          <a href="#contact" class="text-link d-none d-md-inline">View all solutions <i class="bi bi-arrow-right"></i></a>
+        </div>
+
+        <div class="row g-4 mt-2">
+          <div class="col-md-6 col-lg-4">
+            <div class="glass-card solution-card">
+              <div class="icon-box"><i class="bi bi-stars"></i></div>
+              <h3>AI, RAG & Agentic Automation</h3>
+              <p>Intelligent assistants, knowledge systems, document intelligence, and workflow automation.</p>
+              <a href="#technology">Explore <i class="bi bi-arrow-up-right"></i></a>
+            </div>
+          </div>
+          <div class="col-md-6 col-lg-4">
+            <div class="glass-card solution-card">
+              <div class="icon-box"><i class="bi bi-window-stack"></i></div>
+              <h3>SaaS Product Engineering</h3>
+              <p>From discovery to production, build scalable SaaS products designed for the AI era.</p>
+              <a href="#technology">Explore <i class="bi bi-arrow-up-right"></i></a>
+            </div>
+          </div>
+          <div class="col-md-6 col-lg-4">
+            <div class="glass-card solution-card">
+              <div class="icon-box"><i class="bi bi-bank2"></i></div>
+              <h3>Fintech & Open Banking</h3>
+              <p>Secure financial data, lending workflows, open banking integrations, and dashboards.</p>
+              <a href="#industries">Explore <i class="bi bi-arrow-up-right"></i></a>
+            </div>
+          </div>
+          <div class="col-md-6 col-lg-4">
+            <div class="glass-card solution-card">
+              <div class="icon-box"><i class="bi bi-credit-card-2-front"></i></div>
+              <h3>Embedded Finance</h3>
+              <p>Connect financial capabilities directly into your digital products and customer journeys.</p>
+              <a href="#contact">Explore <i class="bi bi-arrow-up-right"></i></a>
+            </div>
+          </div>
+          <div class="col-md-6 col-lg-4">
+            <div class="glass-card solution-card">
+              <div class="icon-box"><i class="bi bi-share"></i></div>
+              <h3>Integration & Automation</h3>
+              <p>Connect APIs, applications, data, and business workflows into reliable digital ecosystems.</p>
+              <a href="#technology">Explore <i class="bi bi-arrow-up-right"></i></a>
+            </div>
+          </div>
+          <div class="col-md-6 col-lg-4">
+            <div class="glass-card solution-card">
+              <div class="icon-box"><i class="bi bi-cloud-check"></i></div>
+              <h3>Cloud, DevOps & AI Infrastructure</h3>
+              <p>Secure, scalable infrastructure for SaaS, fintech, AI, and enterprise platforms.</p>
+              <a href="#technology">Explore <i class="bi bi-arrow-up-right"></i></a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- AI WORKFLOWS -->
+    <section class="section-space section-alt">
+      <div class="container">
+        <div class="row align-items-center g-5">
+          <div class="col-lg-6">
+            <div class="eyebrow">AI SOLUTIONS</div>
+            <h2>AI built around <span class="gradient-text">real business workflows.</span></h2>
+            <p class="section-copy">
+              Move beyond generic AI. Connect intelligence to approved business data,
+              systems, and operations to create measurable workflow improvements.
+            </p>
+            <div class="feature-list">
+              <div><i class="bi bi-check2-circle"></i> Enterprise knowledge assistants</div>
+              <div><i class="bi bi-check2-circle"></i> RAG search and document intelligence</div>
+              <div><i class="bi bi-check2-circle"></i> Customer-support assistants</div>
+              <div><i class="bi bi-check2-circle"></i> ML predictions and financial intelligence</div>
+              <div><i class="bi bi-check2-circle"></i> AI-enabled SaaS features</div>
+            </div>
+            <a href="#contact" class="btn btn-primary-glow rounded-pill px-4 mt-4">Explore AI Solutions</a>
+          </div>
+
+          <div class="col-lg-6">
+            <div class="workflow-panel">
+              <div class="panel-top">
+                <span>Business AI Workflow</span>
+                <span class="live-dot"><i></i> LIVE</span>
+              </div>
+              <div class="workflow-row">
+                <div class="workflow-node"><i class="bi bi-file-earmark-text"></i><small>Data</small></div>
+                <div class="flow-line"></div>
+                <div class="workflow-node active"><i class="bi bi-stars"></i><small>RAG / AI</small></div>
+                <div class="flow-line"></div>
+                <div class="workflow-node"><i class="bi bi-lightning-charge"></i><small>Action</small></div>
+              </div>
+              <div class="workflow-message">
+                <div class="avatar">AI</div>
+                <div>
+                  <small>AI Assistant</small>
+                  <p>Find the latest policy, eligibility criteria, and approved workflow.</p>
+                </div>
+              </div>
+              <div class="workflow-tabs">
+                <span class="active">Chat</span><span>Documents</span><span>Analytics</span><span>Automation</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- RAG -->
+    <section class="section-space">
+      <div class="container">
+        <div class="rag-panel">
+          <div class="row align-items-center g-5">
+            <div class="col-lg-5">
+              <div class="eyebrow">RAG & KNOWLEDGE INTELLIGENCE</div>
+              <h2>Turn business knowledge into an <span class="gradient-text">intelligent assistant.</span></h2>
+              <p>
+                Connect approved business sources to retrieval, LLMs, citations,
+                access controls, evaluation, and continuous improvement.
+              </p>
+              <a href="#contact" class="btn btn-outline-light-soft rounded-pill px-4 mt-3">Learn More</a>
+            </div>
+            <div class="col-lg-7">
+              <div class="rag-flow">
+                <div class="rag-step"><i class="bi bi-file-earmark"></i><span>Documents<br>& Data</span></div>
+                <i class="bi bi-arrow-right"></i>
+                <div class="rag-step"><i class="bi bi-diagram-2"></i><span>Embeddings</span></div>
+                <i class="bi bi-arrow-right"></i>
+                <div class="rag-step"><i class="bi bi-database"></i><span>Vector DB</span></div>
+                <i class="bi bi-arrow-right"></i>
+                <div class="rag-step"><i class="bi bi-search"></i><span>Retrieval</span></div>
+                <i class="bi bi-arrow-right"></i>
+                <div class="rag-step highlight"><i class="bi bi-stars"></i><span>LLM</span></div>
+                <i class="bi bi-arrow-right"></i>
+                <div class="rag-step"><i class="bi bi-chat-square-text"></i><span>Answer</span></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECURITY -->
+    <section class="section-space section-alt">
+      <div class="container">
+        <div class="row align-items-center g-5">
+          <div class="col-lg-7">
+            <div class="eyebrow">AI GOVERNANCE & SECURITY</div>
+            <h2>Intelligent systems with <span class="gradient-text">control built in.</span></h2>
+            <p class="section-copy">
+              Design AI workflows with access control, citations, logging, monitoring,
+              evaluation, retention controls, and human approval for high-impact actions.
+            </p>
+            <div class="security-grid mt-4">
+              <div><i class="bi bi-shield-lock"></i><span>Access Control</span></div>
+              <div><i class="bi bi-journal-text"></i><span>Audit Logs</span></div>
+              <div><i class="bi bi-patch-check"></i><span>Source Citations</span></div>
+              <div><i class="bi bi-activity"></i><span>Monitoring</span></div>
+              <div><i class="bi bi-database-lock"></i><span>Data Privacy</span></div>
+            </div>
+          </div>
+          <div class="col-lg-5">
+            <div class="security-visual">
+              <div class="shield-ring"></div>
+              <div class="shield-core"><i class="bi bi-shield-check"></i></div>
+              <div class="security-pulse p1"></div>
+              <div class="security-pulse p2"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- INDUSTRIES -->
+    <section id="industries" class="section-space">
+      <div class="container">
+        <div class="section-heading">
+          <div class="eyebrow">INDUSTRIES</div>
+          <h2>AI-native platforms for <span class="gradient-text">everyday business.</span></h2>
+          <p>Apply modern engineering to finance, enterprise operations, education, startups, and more.</p>
+        </div>
+
+        <div class="row g-3 mt-3">
+          <div class="col-6 col-lg-3"><div class="industry-card"><div class="industry-art art-bank"></div><span>Fintech & Lending</span></div></div>
+          <div class="col-6 col-lg-3"><div class="industry-card"><div class="industry-art art-open"></div><span>Banking & Open Finance</span></div></div>
+          <div class="col-6 col-lg-3"><div class="industry-card"><div class="industry-art art-enterprise"></div><span>Enterprise Operations</span></div></div>
+          <div class="col-6 col-lg-3"><div class="industry-card"><div class="industry-art art-education"></div><span>Education & Learning</span></div></div>
+          <div class="col-6 col-lg-3"><div class="industry-card"><div class="industry-art art-saas"></div><span>Startups & SaaS</span></div></div>
+          <div class="col-6 col-lg-3"><div class="industry-card"><div class="industry-art art-csr"></div><span>CSR / NGO / Compliance</span></div></div>
+          <div class="col-6 col-lg-3"><div class="industry-card"><div class="industry-art art-retail"></div><span>Retail / ERP</span></div></div>
+          <div class="col-6 col-lg-3"><div class="industry-card industry-cta"><span>Explore all industries <i class="bi bi-arrow-up-right"></i></span></div></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- TECHNOLOGY -->
+    <section id="technology" class="section-space section-alt">
+      <div class="container">
+        <div class="row align-items-center g-5">
+          <div class="col-lg-5">
+            <div class="eyebrow">TECHNOLOGY</div>
+            <h2>Modern architecture for <span class="gradient-text">AI-native platforms.</span></h2>
+            <p class="section-copy">
+              API-first, cloud-ready, modular engineering with AI-ready data and security by design.
+            </p>
+            <div class="tech-principles">
+              <span>API-first</span><span>Cloud-ready</span><span>AI-ready data</span>
+              <span>Security by design</span><span>Modular</span><span>Continuous delivery</span>
+            </div>
+          </div>
+
+          <div class="col-lg-7">
+            <div class="architecture">
+              <div class="arch-side">
+                <div><i class="bi bi-phone"></i><span>User Experience</span></div>
+                <div><i class="bi bi-grid-1x2"></i><span>External Systems</span></div>
+              </div>
+              <div class="arch-stack">
+                <div class="arch-layer layer-blue">Application Layer <small>Business Applications & Services</small></div>
+                <div class="arch-layer layer-blue">API Layer <small>APIs & Integration Layer</small></div>
+                <div class="arch-layer layer-purple">Workflow / AI Layer <small>RAG · Agents · Automation</small></div>
+                <div class="arch-layer layer-cyan">Data / Knowledge Layer <small>Databases · Vector DB · Data Lake</small></div>
+                <div class="arch-layer layer-green">Cloud / DevOps / Security Foundation <small>Infrastructure · Monitoring · Security</small></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="row g-3 mt-5">
+          <div class="col-6 col-lg"><div class="stack-card"><small>FRONTEND</small><strong>React</strong><span>Next.js</span></div></div>
+          <div class="col-6 col-lg"><div class="stack-card"><small>BACKEND</small><strong>Node.js</strong><span>Python · Laravel</span></div></div>
+          <div class="col-6 col-lg"><div class="stack-card"><small>AI & DATA</small><strong>LLMs</strong><span>RAG · ML · Vector DB</span></div></div>
+          <div class="col-6 col-lg"><div class="stack-card"><small>CLOUD</small><strong>AWS</strong><span>Azure · GCP · Docker</span></div></div>
+          <div class="col-6 col-lg"><div class="stack-card"><small>SECURITY</small><strong>RBAC</strong><span>Audit · Secrets</span></div></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CASE STUDIES -->
+    <section class="section-space">
+      <div class="container">
+        <div class="section-heading d-flex justify-content-between align-items-end">
+          <div>
+            <div class="eyebrow">CASE STUDIES</div>
+            <h2>Real solutions. <span class="gradient-text">Measurable impact.</span></h2>
+            <p>Use verified, approved examples to demonstrate engineering outcomes.</p>
+          </div>
+          <a href="#contact" class="text-link d-none d-md-inline">View case studies <i class="bi bi-arrow-right"></i></a>
+        </div>
+
+        <div class="row g-4 mt-2">
+          <div class="col-md-6">
+            <div class="case-card">
+              <div class="case-art art-lending"></div>
+              <div class="p-4">
+                <small>LENDING</small>
+                <h3>Lending Workflow Modernization</h3>
+                <p>Modernize customer journeys, APIs, workflow automation, and platform infrastructure.</p>
+                <a href="#contact">Read case study <i class="bi bi-arrow-up-right"></i></a>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="case-card">
+              <div class="case-art art-rag"></div>
+              <div class="p-4">
+                <small>ENTERPRISE AI</small>
+                <h3>Enterprise RAG Assistant</h3>
+                <p>Connect internal knowledge sources to secure retrieval, AI answers, and controlled workflows.</p>
+                <a href="#contact">Read case study <i class="bi bi-arrow-up-right"></i></a>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="case-card">
+              <div class="case-art art-erp"></div>
+              <div class="p-4">
+                <small>MODERNIZATION</small>
+                <h3>ERP Modernization</h3>
+                <p>Transform legacy operations into modular, API-enabled, cloud-ready digital platforms.</p>
+                <a href="#contact">Read case study <i class="bi bi-arrow-up-right"></i></a>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="case-card">
+              <div class="case-art art-csr"></div>
+              <div class="p-4">
+                <small>CSR / COMPLIANCE</small>
+                <h3>Reporting Automation</h3>
+                <p>Streamline project tracking, documentation, approvals, and stakeholder reporting.</p>
+                <a href="#contact">Read case study <i class="bi bi-arrow-up-right"></i></a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- COMPANY / CTA -->
+    <section id="company" class="section-space final-cta-section">
+      <div class="container">
+        <div class="final-cta">
+          <div>
+            <div class="eyebrow">APARAJAYAH TECHNOLOGIES</div>
+            <h2>Build the future of <span class="gradient-text">AI-native digital platforms.</span></h2>
+            <p>Build intelligent platforms. Connect complex systems. Automate workflows. Modernize technology. Scale with confidence.</p>
+          </div>
+          <div class="d-flex flex-wrap gap-3">
+            <a href="#contact" class="btn btn-primary-glow btn-lg rounded-pill px-4">Talk to Our Experts</a>
+            <a href="#solutions" class="btn btn-outline-light-soft btn-lg rounded-pill px-4">Explore Solutions</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CONTACT -->
+    <section id="contact" class="section-space section-alt">
+      <div class="container">
+        <div class="row g-5 align-items-start">
+          <div class="col-lg-5">
+            <div class="eyebrow">CONTACT</div>
+            <h2>Let's build your next <span class="gradient-text">AI-ready platform.</span></h2>
+            <p class="section-copy">
+              Tell us what you are building, integrating, modernizing, or automating.
+            </p>
+            <div class="contact-points">
+              <div><i class="bi bi-envelope"></i><span>Start a project conversation</span></div>
+              <div><i class="bi bi-diagram-3"></i><span>Explore architecture and integration</span></div>
+              <div><i class="bi bi-stars"></i><span>Identify AI and RAG opportunities</span></div>
+            </div>
+          </div>
+
+          <div class="col-lg-7">
+            <form class="contact-form" onsubmit="event.preventDefault(); showSuccess();">
+              <div class="row g-3">
+                <div class="col-md-6"><label>Name</label><input type="text" placeholder="Your name" required></div>
+                <div class="col-md-6"><label>Company</label><input type="text" placeholder="Company name"></div>
+                <div class="col-md-6"><label>Work Email</label><input type="email" placeholder="you@company.com" required></div>
+                <div class="col-md-6"><label>Phone</label><input type="tel" placeholder="+1 000 000 0000"></div>
+                <div class="col-md-6">
+                  <label>Service</label>
+                  <select>
+                    <option>AI / RAG / Agentic Automation</option>
+                    <option>SaaS Product Engineering</option>
+                    <option>Fintech / Open Banking</option>
+                    <option>Embedded Finance</option>
+                    <option>API Integration / Automation</option>
+                    <option>Legacy Modernization</option>
+                    <option>Cloud / DevOps</option>
+                    <option>Data / ML</option>
+                    <option>Technology Implementation</option>
+                  </select>
+                </div>
+                <div class="col-md-6">
+                  <label>Project Type</label>
+                  <select>
+                    <option>New Platform</option>
+                    <option>Modernization</option>
+                    <option>Integration</option>
+                    <option>AI Enablement</option>
+                    <option>Ongoing Engineering</option>
+                  </select>
+                </div>
+                <div class="col-12"><label>Current System / Challenge</label><input type="text" placeholder="Briefly describe your current challenge"></div>
+                <div class="col-12"><label>Message</label><textarea rows="5" placeholder="Tell us about your project"></textarea></div>
+                <div class="col-12"><button class="btn btn-primary-glow rounded-pill px-4" type="submit">Start Your AI-Ready Platform Journey <i class="bi bi-arrow-up-right"></i></button></div>
+              </div>
+              <div id="formSuccess" class="success-message mt-3">Thanks — your message has been captured in this prototype.</div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="site-footer">
+    <div class="container">
+      <div class="row g-4 py-5">
+        <div class="col-lg-4">
+          <a class="navbar-brand d-flex align-items-center gap-2 mb-3" href="#home">
+            <span class="brand-mark"><span></span></span>
+            <span>Aparajayah</span>
+          </a>
+          <p>AI-Native Engineering for Scalable Digital Business.</p>
+        </div>
+        <div class="col-6 col-lg-2">
+          <h6>Solutions</h6>
+          <a href="#solutions">AI & RAG</a><a href="#solutions">SaaS</a><a href="#solutions">Fintech</a><a href="#solutions">Integrations</a>
+        </div>
+        <div class="col-6 col-lg-2">
+          <h6>Industries</h6>
+          <a href="#industries">Fintech</a><a href="#industries">Banking</a><a href="#industries">Enterprise</a><a href="#industries">Education</a>
+        </div>
+        <div class="col-6 col-lg-2">
+          <h6>Company</h6>
+          <a href="#company">About</a><a href="#contact">Contact</a><a href="#contact">Careers</a><a href="#insights">Insights</a>
+        </div>
+        <div class="col-6 col-lg-2">
+          <h6>Connect</h6>
+          <a href="#contact">Talk to Experts</a><a href="#contact">Request a Demo</a>
+        </div>
+      </div>
+      <div class="footer-bottom d-flex flex-column flex-md-row justify-content-between gap-2">
+        <span>© 2026 Aparajayah Technologies. All rights reserved.</span>
+        <span>Privacy · Terms · Sitemap</span>
+      </div>
+    </div>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script>
+
+const nav = document.querySelector('.site-nav');
+
+window.addEventListener('scroll', () => {
+  if (window.scrollY > 30) {
+    nav.style.background = 'rgba(3,6,17,.90)';
+  } else {
+    nav.style.background = 'rgba(3,6,17,.68)';
+  }
+});
+
+document.querySelectorAll('#mainNav .nav-link').forEach(link => {
+  link.addEventListener('click', () => {
+    const collapse = document.querySelector('#mainNav');
+    if (collapse.classList.contains('show')) {
+      bootstrap.Collapse.getOrCreateInstance(collapse).hide();
+    }
+  });
+});
+
+function showSuccess() {
+  const message = document.getElementById('formSuccess');
+  message.style.display = 'block';
+  setTimeout(() => message.style.display = 'none', 4500);
+}
+
+
+  </script>
+</body>
+</html>

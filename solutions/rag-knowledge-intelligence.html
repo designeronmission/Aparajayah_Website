@@ -1,0 +1,2104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Legacy Software Modernization | AI-Ready Platform Upgrade</title>
+<meta name="description" content="Modernize old software into secure, scalable, API-driven, cloud-ready, and AI-enabled platforms with Aparajayah Technologies.">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../css/style.css">
+
+<style>
+  /* ============================================================
+     NAV + MEGA MENU (matches your original light mega panel)
+  ============================================================ */
+  .nav-bar-aparajayah {
+    position: relative;
+    display: flex; align-items: center; justify-content: space-between;
+  }
+  .nav-links-aparajayah { display: flex; align-items: center; gap: 28px; }
+  .nav-link-aparajayah {
+    font-size: 13px; font-weight: 400;
+    color: var(--text-primary); opacity: .85;
+    transition: var(--transition-fast);
+    letter-spacing: -.005em;
+  }
+  .nav-link-aparajayah:hover { opacity: 1; }
+  .nav-link-aparajayah.active { opacity: 1; font-weight: 500; }
+
+  .mega-trigger {
+    position: relative;
+    display: inline-flex; align-items: center; gap: 0.35rem;
+    cursor: default;
+    font-size: 13px; font-weight: 400;
+    color: var(--nav-text, #e0e0e0);
+    transition: color 0.2s;
+    padding: 0.4rem 0;
+    letter-spacing: -0.01em;
+  }
+  .mega-trigger i {
+    font-size: 0.6rem;
+    transition: transform 0.3s ease;
+    color: rgba(255,255,255,0.5);
+    margin-top: 1px;
+  }
+  .mega-trigger:hover { color: #fff; }
+  .mega-trigger:hover i { transform: rotate(180deg); color: var(--blue); }
+
+  .mega-panel {
+    position: absolute;
+    top: calc(100% + 12px);
+    left: 50%;
+    transform: translateX(-50%) translateY(10px) scale(0.98);
+    width: 1180px; max-width: 96vw;
+    background: #fff;
+    border-radius: 1.25rem;
+    box-shadow: 0 20px 60px -15px rgba(0,0,0,.15), 0 8px 25px -8px rgba(0,0,0,.08);
+    padding: 1.8rem 1.8rem 1.6rem;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 1.2rem;
+    opacity: 0; visibility: hidden; pointer-events: none;
+    transition: opacity .3s ease, transform .4s cubic-bezier(.34,1.56,.64,1), visibility .3s;
+    z-index: 2000;
+    border: 1px solid rgba(0,0,0,.06);
+    overflow: hidden;
+  }
+  .mega-panel::before {
+    content: ""; position: absolute; top: -120px; right: -80px;
+    width: 360px; height: 360px;
+    background: radial-gradient(circle, rgba(0,113,227,.04), transparent 70%);
+    border-radius: 50%; pointer-events: none;
+  }
+  .mega-panel::after {
+    content: ""; position: absolute; bottom: -120px; left: -100px;
+    width: 400px; height: 400px;
+    background: radial-gradient(circle, rgba(139,92,246,.03), transparent 70%);
+    border-radius: 50%; pointer-events: none;
+  }
+  .mega-panel .mega-arrow {
+    position: absolute; top: -7px; left: 50%;
+    transform: translateX(-50%) rotate(45deg);
+    width: 14px; height: 14px;
+    background: #fff;
+    border-left: 1px solid rgba(0,0,0,.06);
+    border-top: 1px solid rgba(0,0,0,.06);
+    border-radius: 3px 0 0 0;
+    z-index: 1;
+  }
+  .mega-trigger:hover + .mega-panel,
+  .mega-panel:hover {
+    opacity: 1; visibility: visible; pointer-events: auto;
+    transform: translateX(-50%) translateY(0) scale(1);
+  }
+
+  .mega-col {
+    position: relative; z-index: 2;
+    display: flex; flex-direction: column; gap: 0.5rem;
+  }
+  .mega-col h6 {
+    font-size: 14px; font-weight: 700;
+    color: #1d1d1f; margin-bottom: 0.3rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid rgba(0,0,0,.05);
+    display: flex; align-items: center; gap: 0.5rem;
+    font-family: 'Inter', sans-serif;
+  }
+  .mega-col h6 i { font-size: 0.75rem; color: var(--blue); }
+
+  .mega-card {
+    background: #fff;
+    border: 1px solid rgba(0,0,0,.06);
+    border-radius: 0.85rem;
+    padding: 0.8rem 0.9rem;
+    position: relative; overflow: hidden;
+    transition: var(--transition);
+    text-decoration: none;
+    display: flex; flex-direction: column; gap: 0.35rem;
+    cursor: pointer;
+    box-shadow: 0 1px 3px rgba(0,0,0,.03);
+    min-height: 92px; height: 92px;
+    justify-content: flex-start;
+  }
+  .mega-card::before {
+    content: ""; position: absolute; inset: 0;
+    background: linear-gradient(135deg, rgba(0,113,227,.02), transparent 60%);
+    opacity: 0; transition: var(--transition); pointer-events: none;
+  }
+  .mega-card:hover {
+    background: #fafbfc;
+    border-color: rgba(0,113,227,.25);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px -8px rgba(0,113,227,.12), 0 4px 10px -4px rgba(0,0,0,.06);
+  }
+  .mega-card:hover::before { opacity: 1; }
+  .mega-card-top {
+    display: flex; align-items: center; gap: 0.55rem;
+    position: relative; z-index: 1; flex-shrink: 0;
+  }
+  .mega-card-icon {
+    width: 1.7rem; height: 1.7rem;
+    display: flex; align-items: center; justify-content: center;
+    background: rgba(0,113,227,.08); border-radius: 0.5rem;
+    flex-shrink: 0; transition: var(--transition);
+  }
+  .mega-card-icon i {
+    font-size: 0.85rem; color: var(--blue);
+    transition: var(--transition);
+  }
+  .mega-card:hover .mega-card-icon { background: rgba(0,113,227,.14); }
+  .mega-card:hover .mega-card-icon i { color: var(--blue-hover); transform: scale(1.05); }
+  .mega-card-title {
+    font-size: 0.8rem; font-weight: 600;
+    color: #1d1d1f; margin: 0;
+    line-height: 1.25; letter-spacing: -0.01em;
+    flex: 1; font-family: 'Inter', sans-serif;
+    display: -webkit-box;
+    -webkit-line-clamp: 2; -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+  .mega-card-cta-icon {
+    width: 1.4rem; height: 1.4rem;
+    display: flex; align-items: center; justify-content: center;
+    border-radius: 50%;
+    background: rgba(0,113,227,.06);
+    flex-shrink: 0; transition: var(--transition);
+    opacity: 0.4;
+  }
+  .mega-card-cta-icon i {
+    font-size: 0.6rem; color: var(--blue);
+    transition: var(--transition);
+  }
+  .mega-card:hover .mega-card-cta-icon {
+    opacity: 1; background: rgba(0,113,227,.14);
+    transform: translateX(2px);
+  }
+  .mega-card:hover .mega-card-cta-icon i { color: var(--blue-hover); }
+  .mega-card-desc {
+    font-size: 0.72rem; color: #6e6e73;
+    margin: 0; line-height: 1.4;
+    position: relative; z-index: 1;
+    padding-left: 2.25rem;
+    letter-spacing: -0.005em;
+    font-family: 'Inter', sans-serif;
+    font-weight: 400;
+    display: -webkit-box;
+    -webkit-line-clamp: 2; -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+  .mega-card.highlight {
+    background: linear-gradient(135deg, rgba(0,113,227,.04), rgba(139,92,246,.02));
+    border-color: rgba(0,113,227,.15);
+  }
+  .mega-card.highlight .mega-card-icon { background: rgba(0,113,227,.12); }
+
+  @media (max-width: 1199px) {
+    .mega-panel { width: 96vw; padding: 1.4rem 1.2rem; gap: 0.9rem; }
+    .mega-card { padding: 0.7rem 0.8rem; min-height: 88px; height: 88px; }
+    .mega-card-title { font-size: 0.76rem; }
+    .mega-card-desc { font-size: 0.68rem; padding-left: 2.1rem; }
+  }
+  @media (max-width: 991px) {
+    .mega-trigger, .mega-panel { display: none; }
+    .nav-links-aparajayah .nav-link-aparajayah.mobile-only { display: block; }
+  }
+  @media (min-width: 992px) {
+    .nav-links-aparajayah .nav-link-aparajayah.mobile-only { display: none; }
+  }
+
+  /* ============================================================
+     BREADCRUMB — Perfect alignment
+  ============================================================ */
+  .breadcrumb-bar {
+    background: var(--slate-50);
+    border-bottom: 1px solid rgba(0,0,0,.04);
+    padding: 90px 0 16px;
+  }
+  .breadcrumb-bar .breadcrumb-inner {
+    display: flex;
+    align-items: center;
+    flex-wrap: nowrap;
+    gap: 0;
+    font-size: 13px;
+    line-height: 24px;
+    overflow-x: auto;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+    -webkit-overflow-scrolling: touch;
+  }
+  .breadcrumb-bar .breadcrumb-inner::-webkit-scrollbar { display: none; }
+  .breadcrumb-bar a {
+    color: var(--text-secondary);
+    text-decoration: none;
+    transition: var(--transition-fast);
+    white-space: nowrap;
+    display: inline-flex;
+    align-items: center;
+    height: 24px;
+    padding: 0;
+    font-weight: 400;
+  }
+  .breadcrumb-bar a:hover { color: var(--blue); }
+  .breadcrumb-bar .sep {
+    color: var(--slate-400);
+    margin: 0 10px;
+    font-size: 10px;
+    display: inline-flex;
+    align-items: center;
+    height: 24px;
+    flex-shrink: 0;
+  }
+  .breadcrumb-bar .current {
+    color: var(--text-primary);
+    font-weight: 500;
+    white-space: nowrap;
+    display: inline-flex;
+    align-items: center;
+    height: 24px;
+  }
+
+  /* ============================================================
+     HERO — dark (matches your original style)
+  ============================================================ */
+  .mz-hero {
+    position: relative;
+    background: linear-gradient(135deg, #05070D 0%, #0A0F1E 60%, #131c2e 100%);
+    color: #fff;
+    padding: 60px 0 90px;
+    overflow: hidden;
+  }
+  .mz-hero::before {
+    content: '';
+    position: absolute;
+    top: -30%; right: -15%;
+    width: 700px; height: 700px;
+    background: radial-gradient(circle, rgba(6,182,212,.15) 0%, transparent 60%);
+    border-radius: 50%;
+    filter: blur(50px);
+    pointer-events: none;
+  }
+  .mz-hero::after {
+    content: '';
+    position: absolute;
+    bottom: -30%; left: -15%;
+    width: 600px; height: 600px;
+    background: radial-gradient(circle, rgba(124,58,237,.12) 0%, transparent 60%);
+    border-radius: 50%;
+    filter: blur(50px);
+    pointer-events: none;
+  }
+  .mz-hero .container-aparajayah { position: relative; z-index: 1; }
+  .mz-hero .eyebrow { color: var(--cyan-light); }
+  .mz-hero h1 {
+    font-size: clamp(34px, 4.6vw, 60px);
+    font-weight: 700;
+    line-height: 1.05;
+    letter-spacing: -.03em;
+    color: #fff;
+    margin-bottom: 24px;
+    background: linear-gradient(135deg, #fff 40%, rgba(34,211,238,.85) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    max-width: 900px;
+  }
+  .mz-hero p {
+    font-size: clamp(17px, 1.6vw, 21px);
+    color: rgba(255,255,255,.72);
+    line-height: 1.55;
+    max-width: 720px;
+    margin-bottom: 32px;
+  }
+  .mz-hero .hero-ctas-aparajayah { justify-content: flex-start; }
+
+  /* ============================================================
+     SECTION 01 — MODERNIZATION-FIRST (DARK vertical timeline)
+  ============================================================ */
+  .mz-vtl-section {
+    position: relative;
+    padding: 120px 0;
+    background: linear-gradient(180deg, #05070D 0%, #0A0F1E 50%, #05070D 100%);
+    color: #fff;
+    overflow: hidden;
+  }
+  .mz-vtl-section::before {
+    content: '';
+    position: absolute;
+    top: 20%; left: 50%;
+    transform: translateX(-50%);
+    width: 1200px; height: 1200px;
+    background: radial-gradient(circle, rgba(6,182,212,.07) 0%, transparent 65%);
+    border-radius: 50%;
+    filter: blur(100px);
+    pointer-events: none;
+  }
+  .mz-vtl-section .container-aparajayah { position: relative; z-index: 1; }
+
+  .mz-vtl-header {
+    text-align: center;
+    max-width: 780px;
+    margin: 0 auto 72px;
+  }
+  .mz-vtl-header .eyebrow { color: var(--cyan-light); }
+  .mz-vtl-title {
+    font-size: clamp(32px, 4vw, 54px);
+    font-weight: 700;
+    letter-spacing: -.03em;
+    line-height: 1.08;
+    color: #fff;
+    margin: 14px 0 20px;
+  }
+  .mz-vtl-accent {
+    background: linear-gradient(135deg, #fff 30%, var(--cyan-light) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  .mz-vtl-subtitle {
+    font-size: 18px;
+    line-height: 1.6;
+    color: rgba(255,255,255,.65);
+    margin: 0;
+  }
+
+  .mz-vtl-spine {
+    position: relative;
+    max-width: 1080px;
+    margin: 0 auto 56px;
+  }
+  .mz-vtl-spine::before {
+    content: '';
+    position: absolute;
+    top: 0; bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 2px;
+    background: linear-gradient(180deg,
+      transparent 0%,
+      rgba(239,68,68,.3) 15%,
+      rgba(34,211,238,.5) 50%,
+      rgba(34,211,238,.3) 85%,
+      transparent 100%);
+    z-index: 0;
+  }
+  .mz-vtl-row {
+    display: grid;
+    grid-template-columns: 1fr 80px 1fr;
+    gap: 20px;
+    align-items: center;
+    margin-bottom: 40px;
+    position: relative;
+    z-index: 1;
+  }
+  .mz-vtl-row:last-child { margin-bottom: 0; }
+  .mz-vtl-content { padding: 0 8px; }
+  .mz-vtl-content-left { text-align: right; }
+  .mz-vtl-content-right { text-align: left; }
+  .mz-vtl-spacer { visibility: hidden; }
+  .mz-vtl-marker {
+    display: flex; align-items: center; justify-content: center;
+    position: relative; z-index: 2;
+  }
+  .mz-vtl-marker-dot {
+    width: 18px; height: 18px;
+    border-radius: 50%;
+    background: #0A0F1E;
+    border: 3px solid;
+  }
+  .mz-vtl-marker-red {
+    border-color: #EF4444;
+    box-shadow: 0 0 0 6px rgba(239,68,68,.12), 0 0 24px rgba(239,68,68,.5);
+  }
+  .mz-vtl-marker-green {
+    border-color: var(--cyan-light);
+    box-shadow: 0 0 0 6px rgba(34,211,238,.12), 0 0 24px rgba(34,211,238,.6);
+  }
+  .mz-vtl-marker-core {
+    width: 56px; height: 56px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--blue), var(--cyan));
+    color: #fff;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 20px;
+    box-shadow: 0 0 0 8px rgba(6,182,212,.1), 0 0 32px rgba(6,182,212,.6);
+    animation: mzVtlPulse 2.5s ease-in-out infinite;
+  }
+  .mz-vtl-marker-core i { animation: mzVtlBob 2.5s ease-in-out infinite; }
+  @keyframes mzVtlPulse {
+    0%, 100% { box-shadow: 0 0 0 8px rgba(6,182,212,.1), 0 0 32px rgba(6,182,212,.6); }
+    50% { box-shadow: 0 0 0 14px rgba(6,182,212,.15), 0 0 48px rgba(6,182,212,.9); }
+  }
+  @keyframes mzVtlBob {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(4px); }
+  }
+
+  .mz-vtl-card {
+    display: inline-block;
+    text-align: left;
+    max-width: 460px;
+    padding: 28px 26px;
+    border-radius: 24px;
+    position: relative;
+    transition: var(--transition);
+  }
+  .mz-vtl-card:hover { transform: translateY(-4px); }
+  .mz-vtl-card-legacy {
+    background: rgba(255,255,255,.03);
+    border: 1px solid rgba(255,255,255,.08);
+  }
+  .mz-vtl-card-modern {
+    background: linear-gradient(135deg, rgba(6,182,212,.08) 0%, rgba(0,113,227,.04) 100%);
+    border: 1px solid rgba(34,211,238,.3);
+    box-shadow: 0 20px 60px rgba(6,182,212,.15);
+  }
+
+  .mz-vtl-tag {
+    display: inline-flex; align-items: center; gap: 8px;
+    font-size: 11px; font-weight: 700;
+    letter-spacing: .12em; text-transform: uppercase;
+    color: rgba(255,255,255,.55);
+    margin-bottom: 14px;
+  }
+  .mz-vtl-card-modern .mz-vtl-tag { color: var(--cyan-light); }
+  .mz-vtl-dot {
+    width: 8px; height: 8px; border-radius: 50%;
+    display: inline-block;
+  }
+  .mz-vtl-dot-red { background: #EF4444; box-shadow: 0 0 10px rgba(239,68,68,.6); }
+  .mz-vtl-dot-green {
+    background: #22D3EE;
+    box-shadow: 0 0 10px rgba(34,211,238,.8);
+    animation: mzVtlDot 2s ease-in-out infinite;
+  }
+  @keyframes mzVtlDot {
+    0%, 100% { box-shadow: 0 0 10px rgba(34,211,238,.8); }
+    50% { box-shadow: 0 0 20px rgba(34,211,238,1), 0 0 30px rgba(34,211,238,.5); }
+  }
+
+  .mz-vtl-card h3 {
+    font-size: 20px; font-weight: 700;
+    color: #fff; letter-spacing: -.02em;
+    margin-bottom: 10px;
+  }
+  .mz-vtl-card p {
+    font-size: 14px;
+    color: rgba(255,255,255,.6);
+    line-height: 1.55;
+    margin-bottom: 18px;
+  }
+  .mz-vtl-list {
+    list-style: none; padding: 0; margin: 0;
+    display: flex; flex-direction: column; gap: 8px;
+  }
+  .mz-vtl-list li {
+    display: flex; align-items: center; gap: 10px;
+    font-size: 13px; font-weight: 500;
+  }
+  .mz-vtl-list li i { font-size: 14px; flex-shrink: 0; }
+  .mz-vtl-list-legacy li { color: rgba(255,255,255,.5); }
+  .mz-vtl-list-legacy li i { color: #EF4444; opacity: .7; }
+  .mz-vtl-list-modern li { color: rgba(255,255,255,.9); }
+  .mz-vtl-list-modern li i { color: var(--cyan-light); }
+
+  .mz-vtl-tiles {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 8px;
+    margin-bottom: 18px;
+  }
+  .mz-vtl-tile {
+    background: rgba(6,182,212,.12);
+    border: 1px solid rgba(6,182,212,.3);
+    border-radius: 10px;
+    padding: 12px 4px;
+    display: flex; flex-direction: column; align-items: center; gap: 6px;
+    transition: var(--transition-fast);
+  }
+  .mz-vtl-tile:hover { background: rgba(6,182,212,.2); transform: translateY(-2px); }
+  .mz-vtl-tile i { font-size: 16px; color: var(--cyan-light); }
+  .mz-vtl-tile span {
+    font-size: 10px; font-weight: 600;
+    color: rgba(255,255,255,.8);
+    letter-spacing: .02em;
+  }
+
+  .mz-vtl-transform-card {
+    display: inline-block;
+    text-align: left;
+    max-width: 460px;
+    padding: 24px 26px;
+    border-radius: 20px;
+    background: linear-gradient(135deg, rgba(0,113,227,.1) 0%, rgba(6,182,212,.06) 100%);
+    border: 1px solid rgba(34,211,238,.25);
+    box-shadow: 0 12px 40px rgba(6,182,212,.15);
+  }
+  .mz-vtl-transform-label {
+    display: inline-block;
+    font-size: 10px; font-weight: 700;
+    letter-spacing: .18em; text-transform: uppercase;
+    color: var(--cyan-light);
+    background: rgba(6,182,212,.15);
+    padding: 4px 12px;
+    border-radius: 6px;
+    margin-bottom: 12px;
+  }
+  .mz-vtl-transform-card h4 {
+    font-size: 17px; font-weight: 700;
+    color: #fff; letter-spacing: -.015em;
+    margin-bottom: 16px;
+  }
+  .mz-vtl-steps {
+    display: flex; align-items: center; flex-wrap: wrap; gap: 8px;
+  }
+  .mz-vtl-steps span {
+    font-size: 11px; font-weight: 600;
+    color: rgba(255,255,255,.85);
+    background: rgba(255,255,255,.06);
+    padding: 5px 10px;
+    border-radius: 6px;
+    border: 1px solid rgba(255,255,255,.08);
+  }
+  .mz-vtl-steps i { font-size: 10px; color: rgba(34,211,238,.6); }
+
+  /* Capability pills (dark) */
+  .mz-vtl-caps {
+    display: flex; flex-wrap: wrap; gap: 10px;
+    justify-content: center;
+    max-width: 900px;
+    margin: 0 auto 0;
+  }
+  .mz-vtl-cap {
+    display: inline-flex; align-items: center; gap: 8px;
+    padding: 10px 18px;
+    background: rgba(255,255,255,.04);
+    border: 1px solid rgba(255,255,255,.1);
+    border-radius: 980px;
+    font-size: 13px; font-weight: 500;
+    color: rgba(255,255,255,.85);
+    transition: all .3s ease;
+    cursor: default;
+    backdrop-filter: blur(10px);
+  }
+  .mz-vtl-cap i {
+    font-size: 13px; color: var(--cyan-light);
+    transition: all .3s ease;
+  }
+  .mz-vtl-cap:hover {
+    background: rgba(6,182,212,.12);
+    border-color: rgba(34,211,238,.4);
+    color: #fff;
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(6,182,212,.15);
+  }
+  .mz-vtl-cap:hover i { transform: scale(1.15); }
+
+  /* ============================================================
+     SECTION 02 — SIGNS (LIGHT, slate background)
+  ============================================================ */
+  .mz-signs-section {
+    padding: 110px 0;
+    background: var(--slate-50);
+    position: relative;
+    overflow: hidden;
+  }
+  .mz-signs-section::before {
+    content: '';
+    position: absolute;
+    top: 20%; right: -10%;
+    width: 600px; height: 600px;
+    background: radial-gradient(circle, rgba(245,158,11,.05) 0%, transparent 65%);
+    border-radius: 50%;
+    filter: blur(60px);
+    pointer-events: none;
+  }
+  .mz-signs-section .container-aparajayah { position: relative; z-index: 1; }
+
+  .mz-signs-header {
+    text-align: center;
+    max-width: 780px;
+    margin: 0 auto 64px;
+  }
+  .mz-signs-header .eyebrow { color: #F59E0B; }
+  .mz-signs-header h2 {
+    font-size: clamp(28px, 3.5vw, 44px);
+    font-weight: 700;
+    letter-spacing: -.025em;
+    line-height: 1.12;
+    color: var(--text-primary);
+    margin: 14px 0 18px;
+  }
+  .mz-signs-header .gradient-accent-warn {
+    background: linear-gradient(135deg, #F59E0B 0%, #EF4444 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  .mz-signs-header p {
+    font-size: 17px;
+    line-height: 1.6;
+    color: var(--text-secondary);
+    margin: 0;
+  }
+
+  /* Trend: split hover cards (not flat grid) */
+  .mz-signs-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+    max-width: 1080px;
+    margin: 0 auto;
+  }
+  .mz-sign-item {
+    position: relative;
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    align-items: center;
+    gap: 18px;
+    padding: 24px 26px;
+    background: #fff;
+    border: 1px solid rgba(0,0,0,.06);
+    border-radius: 20px;
+    transition: all .4s cubic-bezier(.25,.1,.25,1);
+    overflow: hidden;
+    cursor: default;
+  }
+  .mz-sign-item::before {
+    content: '';
+    position: absolute;
+    left: 0; top: 0; bottom: 0;
+    width: 4px;
+    background: linear-gradient(180deg, #F59E0B, #EF4444);
+    transform: scaleY(0);
+    transform-origin: top;
+    transition: transform .45s cubic-bezier(.25,.1,.25,1);
+  }
+  .mz-sign-item:hover {
+    border-color: rgba(245,158,11,.3);
+    transform: translateX(6px);
+    box-shadow: 0 20px 50px rgba(245,158,11,.12);
+  }
+  .mz-sign-item:hover::before { transform: scaleY(1); }
+
+  .mz-sign-item-icon {
+    width: 52px; height: 52px;
+    border-radius: 14px;
+    background: linear-gradient(135deg, rgba(245,158,11,.12), rgba(239,68,68,.06));
+    border: 1px solid rgba(245,158,11,.2);
+    color: #F59E0B;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 20px;
+    flex-shrink: 0;
+    transition: all .4s ease;
+  }
+  .mz-sign-item:hover .mz-sign-item-icon {
+    background: linear-gradient(135deg, #F59E0B, #EF4444);
+    color: #fff;
+    transform: scale(1.08) rotate(-4deg);
+    box-shadow: 0 8px 22px rgba(245,158,11,.4);
+  }
+
+  .mz-sign-item-body h4 {
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-bottom: 5px;
+    letter-spacing: -.01em;
+    line-height: 1.3;
+  }
+  .mz-sign-item-body p {
+    font-size: 13px;
+    color: var(--text-secondary);
+    line-height: 1.55;
+    margin: 0;
+  }
+
+  .mz-sign-item-arrow {
+    width: 32px; height: 32px;
+    border-radius: 50%;
+    background: rgba(245,158,11,.08);
+    color: #F59E0B;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 14px;
+    flex-shrink: 0;
+    transition: all .35s ease;
+    opacity: .6;
+  }
+  .mz-sign-item:hover .mz-sign-item-arrow {
+    background: #F59E0B;
+    color: #fff;
+    transform: translateX(4px);
+    opacity: 1;
+  }
+
+  /* ============================================================
+     SECTION 03 — SERVICES (LIGHT with side mockup)
+  ============================================================ */
+  .mz-services-section {
+    padding: 110px 0;
+    background: #fff;
+    position: relative;
+    overflow: hidden;
+  }
+  .mz-services-section::before {
+    content: '';
+    position: absolute;
+    bottom: 10%; left: -10%;
+    width: 600px; height: 600px;
+    background: radial-gradient(circle, rgba(0,113,227,.05) 0%, transparent 65%);
+    border-radius: 50%;
+    filter: blur(60px);
+    pointer-events: none;
+  }
+  .mz-services-section .container-aparajayah { position: relative; z-index: 1; }
+
+  .mz-services-header {
+    text-align: center;
+    max-width: 780px;
+    margin: 0 auto 64px;
+  }
+  .mz-services-header .eyebrow { color: var(--blue); }
+  .mz-services-header h2 {
+    font-size: clamp(28px, 3.5vw, 44px);
+    font-weight: 700;
+    letter-spacing: -.025em;
+    line-height: 1.12;
+    color: var(--text-primary);
+    margin: 14px 0 18px;
+  }
+  .mz-services-header .gradient-accent-blue {
+    background: linear-gradient(135deg, var(--blue) 0%, var(--cyan) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  .mz-services-header p {
+    font-size: 17px;
+    line-height: 1.6;
+    color: var(--text-secondary);
+    margin: 0;
+  }
+
+  /* Split layout: services list + side mockup */
+  .mz-services-layout {
+    display: grid;
+    grid-template-columns: 1.2fr 1fr;
+    gap: 48px;
+    align-items: start;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .mz-services-list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+  .mz-service-row {
+    position: relative;
+    display: grid;
+    grid-template-columns: 72px 1fr auto;
+    gap: 20px;
+    align-items: center;
+    padding: 22px 26px;
+    background: var(--slate-50);
+    border: 1px solid rgba(0,0,0,.05);
+    border-radius: 18px;
+    transition: all .4s cubic-bezier(.25,.1,.25,1);
+    overflow: hidden;
+    cursor: default;
+  }
+  .mz-service-row::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, var(--blue), var(--cyan));
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform .5s cubic-bezier(.25,.1,.25,1);
+  }
+  .mz-service-row:hover {
+    background: #fff;
+    border-color: rgba(0,113,227,.2);
+    transform: translateX(6px);
+    box-shadow: 0 16px 40px rgba(0,113,227,.08);
+  }
+  .mz-service-row:hover::before { transform: scaleX(1); }
+
+  .mz-service-num {
+    font-size: 32px;
+    font-weight: 800;
+    letter-spacing: -.03em;
+    line-height: 1;
+    background: linear-gradient(135deg, var(--blue), var(--cyan));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .mz-service-body h4 {
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--text-primary);
+    letter-spacing: -.015em;
+    margin-bottom: 6px;
+    line-height: 1.3;
+  }
+  .mz-service-body p {
+    font-size: 13px;
+    color: var(--text-secondary);
+    line-height: 1.55;
+    margin: 0;
+  }
+
+  .mz-service-icon {
+    flex-shrink: 0;
+    width: 44px; height: 44px;
+    border-radius: 12px;
+    background: linear-gradient(135deg, rgba(0,113,227,.1), rgba(6,182,212,.1));
+    color: var(--blue);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 18px;
+    transition: all .4s ease;
+  }
+  .mz-service-row:hover .mz-service-icon {
+    background: linear-gradient(135deg, var(--blue), var(--cyan));
+    color: #fff;
+    transform: rotate(-6deg) scale(1.08);
+    box-shadow: 0 8px 20px rgba(0,113,227,.35);
+  }
+
+  /* Side mockup */
+  .mz-services-side {
+    position: sticky;
+    top: 120px;
+    height: 560px;
+    background: linear-gradient(135deg, #0A0F1E 0%, #0f1a2e 100%);
+    border-radius: 24px;
+    padding: 28px;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    overflow: hidden;
+    box-shadow: 0 30px 80px rgba(0,0,0,.2);
+  }
+  .mz-services-side::before {
+    content: '';
+    position: absolute;
+    top: -40%; right: -30%;
+    width: 400px; height: 400px;
+    background: radial-gradient(circle, rgba(6,182,212,.25) 0%, transparent 60%);
+    border-radius: 50%;
+    filter: blur(40px);
+    pointer-events: none;
+  }
+  .mz-services-side::after {
+    content: '';
+    position: absolute;
+    bottom: -40%; left: -30%;
+    width: 350px; height: 350px;
+    background: radial-gradient(circle, rgba(124,58,237,.18) 0%, transparent 60%);
+    border-radius: 50%;
+    filter: blur(40px);
+    pointer-events: none;
+  }
+
+  .mz-side-label {
+    position: relative;
+    z-index: 1;
+    display: inline-flex; align-items: center; gap: 8px;
+    font-size: 11px; font-weight: 700;
+    letter-spacing: .14em; text-transform: uppercase;
+    color: var(--cyan-light);
+    padding-bottom: 12px;
+    border-bottom: 1px solid rgba(255,255,255,.08);
+  }
+  .mz-side-label i { font-size: 13px; }
+
+  .mz-side-mock {
+    position: relative;
+    z-index: 1;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    justify-content: center;
+  }
+  .mz-side-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 14px 16px;
+    background: rgba(255,255,255,.05);
+    border: 1px solid rgba(255,255,255,.08);
+    border-radius: 12px;
+    backdrop-filter: blur(20px);
+    transition: all .35s ease;
+  }
+  .mz-side-row:hover {
+    background: rgba(34,211,238,.1);
+    border-color: rgba(34,211,238,.35);
+    transform: translateX(4px);
+  }
+  .mz-side-row i {
+    width: 32px; height: 32px;
+    border-radius: 9px;
+    background: linear-gradient(135deg, var(--blue), var(--cyan));
+    color: #fff;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 14px;
+    flex-shrink: 0;
+    box-shadow: 0 4px 12px rgba(6,182,212,.35);
+  }
+  .mz-side-row span {
+    font-size: 13px;
+    font-weight: 500;
+    color: rgba(255,255,255,.85);
+    letter-spacing: -.005em;
+  }
+  .mz-side-row .mz-side-check {
+    margin-left: auto;
+    width: 20px; height: 20px;
+    border-radius: 50%;
+    background: rgba(34,211,238,.2);
+    color: var(--cyan-light);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 11px;
+    font-weight: 700;
+  }
+  .mz-side-progress {
+    position: relative;
+    z-index: 1;
+    margin-top: auto;
+    padding-top: 16px;
+    border-top: 1px solid rgba(255,255,255,.08);
+  }
+  .mz-side-progress-label {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 11px;
+    color: rgba(255,255,255,.5);
+    margin-bottom: 8px;
+    letter-spacing: .02em;
+  }
+  .mz-side-progress-label strong { color: var(--cyan-light); font-weight: 700; }
+  .mz-side-progress-bar {
+    height: 6px;
+    background: rgba(255,255,255,.06);
+    border-radius: 6px;
+    overflow: hidden;
+    position: relative;
+  }
+  .mz-side-progress-fill {
+    height: 100%;
+    width: 72%;
+    background: linear-gradient(90deg, var(--blue), var(--cyan-light));
+    border-radius: 6px;
+    box-shadow: 0 0 12px rgba(34,211,238,.6);
+    animation: mzProgressShine 3s ease-in-out infinite;
+  }
+  @keyframes mzProgressShine {
+    0%, 100% { opacity: .9; }
+    50% { opacity: 1; box-shadow: 0 0 20px rgba(34,211,238,.9); }
+  }
+
+  /* ============================================================
+     SECTION 04 — ROADMAP (LIGHT with horizontal timeline)
+  ============================================================ */
+  .mz-roadmap-section {
+    padding: 110px 0;
+    background: var(--slate-50);
+    position: relative;
+    overflow: hidden;
+  }
+  .mz-roadmap-section::before {
+    content: '';
+    position: absolute;
+    top: 30%; left: 50%;
+    transform: translateX(-50%);
+    width: 900px; height: 900px;
+    background: radial-gradient(circle, rgba(0,113,227,.04) 0%, transparent 65%);
+    border-radius: 50%;
+    filter: blur(80px);
+    pointer-events: none;
+  }
+  .mz-roadmap-section .container-aparajayah { position: relative; z-index: 1; }
+
+  .mz-roadmap-header {
+    text-align: center;
+    max-width: 780px;
+    margin: 0 auto 64px;
+  }
+  .mz-roadmap-header .eyebrow { color: var(--blue); }
+  .mz-roadmap-header h2 {
+    font-size: clamp(28px, 3.5vw, 44px);
+    font-weight: 700;
+    letter-spacing: -.025em;
+    line-height: 1.12;
+    color: var(--text-primary);
+    margin: 14px 0 18px;
+  }
+  .mz-roadmap-header .gradient-accent-blue {
+    background: linear-gradient(135deg, var(--blue) 0%, var(--cyan) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  .mz-roadmap-header p {
+    font-size: 17px;
+    line-height: 1.6;
+    color: var(--text-secondary);
+    margin: 0;
+  }
+
+  .mz-roadmap-track {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 16px;
+    max-width: 1180px;
+    margin: 0 auto;
+    position: relative;
+  }
+  .mz-roadmap-track::before {
+    content: '';
+    position: absolute;
+    top: 42px;
+    left: 6%;
+    right: 6%;
+    height: 2px;
+    background: linear-gradient(90deg,
+      transparent 0%,
+      rgba(0,113,227,.25) 15%,
+      rgba(6,182,212,.5) 50%,
+      rgba(0,113,227,.25) 85%,
+      transparent 100%);
+    z-index: 0;
+  }
+  .mz-roadmap-stage {
+    position: relative;
+    z-index: 1;
+    padding: 24px 16px;
+    background: #fff;
+    border: 1px solid rgba(0,0,0,.06);
+    border-radius: 20px;
+    text-align: center;
+    transition: all .4s cubic-bezier(.25,.1,.25,1);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+  }
+  .mz-roadmap-stage:hover {
+    transform: translateY(-6px);
+    border-color: rgba(0,113,227,.25);
+    box-shadow: 0 24px 60px rgba(0,113,227,.12);
+  }
+  .mz-roadmap-num {
+    position: absolute;
+    top: 12px;
+    right: 16px;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: .15em;
+    color: var(--slate-400);
+  }
+  .mz-roadmap-icon {
+    width: 52px; height: 52px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #0A0F1E, #111827);
+    border: 2px solid rgba(6,182,212,.5);
+    color: var(--cyan-light);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 20px;
+    box-shadow:
+      0 0 0 6px rgba(6,182,212,.08),
+      0 0 22px rgba(6,182,212,.35);
+    transition: all .4s ease;
+  }
+  .mz-roadmap-stage:hover .mz-roadmap-icon {
+    border-color: var(--cyan-light);
+    transform: scale(1.12);
+    box-shadow:
+      0 0 0 10px rgba(6,182,212,.15),
+      0 0 40px rgba(6,182,212,.7);
+  }
+  .mz-roadmap-stage h4 {
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--text-primary);
+    letter-spacing: -.01em;
+    margin: 0;
+  }
+  .mz-roadmap-stage p {
+    font-size: 12px;
+    color: var(--text-secondary);
+    line-height: 1.5;
+    margin: 0;
+  }
+
+  /* ============================================================
+     SECTION 05 — FAQ (LIGHT)
+  ============================================================ */
+  .mz-faq-section {
+    padding: 110px 0;
+    background: #fff;
+  }
+  .mz-faq-section .container-aparajayah { max-width: 900px; }
+  .mz-faq-header {
+    text-align: center;
+    max-width: 720px;
+    margin: 0 auto 56px;
+  }
+  .mz-faq-header .eyebrow { color: var(--blue); }
+  .mz-faq-header h2 {
+    font-size: clamp(28px, 3.5vw, 44px);
+    font-weight: 700;
+    letter-spacing: -.025em;
+    line-height: 1.12;
+    color: var(--text-primary);
+    margin: 14px 0 0;
+  }
+  .mz-faq-header .gradient-accent-blue {
+    background: linear-gradient(135deg, var(--blue) 0%, var(--cyan) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .mz-faq-item {
+    background: var(--slate-50);
+    border: 1px solid rgba(0,0,0,.05);
+    border-radius: 16px;
+    margin-bottom: 12px;
+    overflow: hidden;
+    transition: all .3s ease;
+  }
+  .mz-faq-item.open {
+    background: #fff;
+    border-color: rgba(0,113,227,.2);
+    box-shadow: 0 12px 30px rgba(0,113,227,.06);
+  }
+  .mz-faq-q {
+    width: 100%;
+    text-align: left;
+    padding: 22px 26px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 20px;
+    background: none;
+    border: none;
+    color: var(--text-primary);
+    font-size: 16px;
+    font-weight: 600;
+    letter-spacing: -.015em;
+    cursor: pointer;
+    transition: var(--transition-fast);
+  }
+  .mz-faq-q:hover { color: var(--blue); }
+  .mz-faq-q i {
+    font-size: 16px;
+    color: var(--slate-400);
+    transition: transform .35s cubic-bezier(.25,.1,.25,1), color .3s;
+    flex-shrink: 0;
+  }
+  .mz-faq-item.open .mz-faq-q i {
+    transform: rotate(45deg);
+    color: var(--blue);
+  }
+  .mz-faq-a {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height .4s cubic-bezier(.25,.1,.25,1), padding .4s ease;
+    padding: 0 26px;
+    color: var(--text-secondary);
+    font-size: 15px;
+    line-height: 1.65;
+  }
+  .mz-faq-item.open .mz-faq-a {
+    max-height: 400px;
+    padding: 0 26px 24px;
+  }
+
+  /* ============================================================
+     SECTION 06 — CTA BANNER (DARK — only big gradient banner)
+  ============================================================ */
+  .mz-cta-section {
+    padding: 100px 0;
+    background: #fff;
+  }
+  .mz-cta-banner {
+    background: linear-gradient(135deg, #05070D 0%, #0f1a2e 100%);
+    border-radius: 32px;
+    padding: 80px 60px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+    color: #fff;
+  }
+  .mz-cta-banner::before {
+    content: '';
+    position: absolute;
+    top: -50%; right: -20%;
+    width: 600px; height: 600px;
+    background: radial-gradient(circle, rgba(6,182,212,.18) 0%, transparent 60%);
+    border-radius: 50%;
+    filter: blur(50px);
+    pointer-events: none;
+  }
+  .mz-cta-banner::after {
+    content: '';
+    position: absolute;
+    bottom: -50%; left: -20%;
+    width: 600px; height: 600px;
+    background: radial-gradient(circle, rgba(124,58,237,.15) 0%, transparent 60%);
+    border-radius: 50%;
+    filter: blur(50px);
+    pointer-events: none;
+  }
+  .mz-cta-banner .mz-cta-inner { position: relative; z-index: 1; }
+  .mz-cta-banner h2 {
+    font-size: clamp(28px, 3.5vw, 44px);
+    font-weight: 700;
+    color: #fff;
+    letter-spacing: -.03em;
+    margin-bottom: 18px;
+    background: linear-gradient(135deg, #fff 40%, rgba(34,211,238,.9) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  .mz-cta-banner p {
+    font-size: 18px;
+    color: rgba(255,255,255,.7);
+    max-width: 640px;
+    margin: 0 auto 36px;
+    line-height: 1.6;
+  }
+  .mz-cta-banner .hero-ctas-aparajayah { justify-content: center; }
+  .mz-cta-banner .btn-aparajayah-outline {
+    color: #fff;
+    border-color: rgba(255,255,255,.3);
+  }
+  .mz-cta-banner .btn-aparajayah-outline:hover {
+    background: rgba(255,255,255,.08);
+    border-color: rgba(255,255,255,.55);
+  }
+
+  /* ============================================================
+     RESPONSIVE
+  ============================================================ */
+  @media (max-width: 992px) {
+    .mz-vtl-spine::before { left: 30px; transform: none; }
+    .mz-vtl-row { grid-template-columns: 60px 1fr; gap: 20px; margin-bottom: 32px; }
+    .mz-vtl-content,
+    .mz-vtl-content-left,
+    .mz-vtl-content-right { grid-column: 2; text-align: left; padding: 0; }
+    .mz-vtl-marker { grid-column: 1; grid-row: 1; }
+    .mz-vtl-spacer { display: none; }
+    .mz-vtl-card,
+    .mz-vtl-transform-card { max-width: 100%; }
+
+    .mz-signs-grid { grid-template-columns: 1fr; }
+
+    .mz-services-layout { grid-template-columns: 1fr; gap: 32px; }
+    .mz-services-side { position: static; height: auto; min-height: 420px; }
+
+    .mz-roadmap-track { grid-template-columns: repeat(2, 1fr); }
+    .mz-roadmap-track::before { display: none; }
+  }
+  @media (max-width: 640px) {
+    .breadcrumb-bar { padding: 90px 0 14px; }
+    .mz-hero { padding: 40px 0 60px; }
+
+    .mz-vtl-section { padding: 80px 0; }
+    .mz-vtl-header { margin-bottom: 48px; }
+    .mz-vtl-title { font-size: 26px; }
+    .mz-vtl-subtitle { font-size: 15px; }
+    .mz-vtl-tiles { grid-template-columns: repeat(2, 1fr); }
+
+    .mz-signs-section { padding: 80px 0; }
+    .mz-signs-grid { grid-template-columns: 1fr; }
+    .mz-sign-item { padding: 20px 22px; gap: 14px; }
+    .mz-sign-item-icon { width: 44px; height: 44px; font-size: 18px; }
+
+    .mz-services-section { padding: 80px 0; }
+    .mz-service-row {
+      grid-template-columns: 1fr auto;
+      gap: 14px;
+      padding: 20px 22px;
+    }
+    .mz-service-num {
+      grid-column: 1 / -1;
+      font-size: 24px;
+      margin-bottom: 4px;
+    }
+
+    .mz-roadmap-section { padding: 80px 0; }
+    .mz-roadmap-track { grid-template-columns: 1fr; gap: 12px; }
+
+    .mz-faq-section { padding: 80px 0; }
+    .mz-cta-section { padding: 60px 0; }
+    .mz-cta-banner { padding: 56px 28px; border-radius: 24px; }
+    .mz-faq-q { padding: 18px 20px; font-size: 15px; }
+    .mz-faq-a { padding: 0 20px; }
+    .mz-faq-item.open .mz-faq-a { padding: 0 20px 20px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ===================== NAV ===================== -->
+<nav class="nav-aparajayah dark" id="mainNav">
+  <div class="container-aparajayah">
+    <div class="nav-bar-aparajayah">
+      <a href="index.html" class="logo-aparajayah"><img src="../images/logo2.png" alt="Aparajayah" class="logo-new"/></a>
+
+      <div class="nav-links-aparajayah">
+        <a href="index.html" class="nav-link-aparajayah">Home</a>
+
+        <!-- SOLUTIONS MEGA MENU -->
+        <div class="mega-trigger">
+          Solutions <i class="bi bi-chevron-down"></i>
+        </div>
+        <div class="mega-panel">
+          <div class="mega-arrow"></div>
+          <div class="mega-col">
+            <h6>AI &amp; Intelligence</h6>
+            <a href="rag-knowledge-intelligence.html" class="mega-card highlight">
+              <div class="mega-card-top">
+                <div class="mega-card-icon"><i class="bi bi-cpu"></i></div>
+                <h5 class="mega-card-title">RAG Knowledge Intelligence</h5>
+                <div class="mega-card-cta-icon"><i class="bi bi-arrow-up-right"></i></div>
+              </div>
+              <p class="mega-card-desc">Enterprise AI assistants, RAG systems, and intelligent automation.</p>
+            </a>
+            <a href="ai-rag.html#assistants" class="mega-card">
+              <div class="mega-card-top">
+                <div class="mega-card-icon"><i class="bi bi-chat-square-text"></i></div>
+                <h5 class="mega-card-title">Conversational AI</h5>
+                <div class="mega-card-cta-icon"><i class="bi bi-arrow-up-right"></i></div>
+              </div>
+              <p class="mega-card-desc">Grounded assistants with citations, RBAC, and guardrails.</p>
+            </a>
+            <a href="ai-rag.html#rag" class="mega-card">
+              <div class="mega-card-top">
+                <div class="mega-card-icon"><i class="bi bi-database"></i></div>
+                <h5 class="mega-card-title">RAG Platforms</h5>
+                <div class="mega-card-cta-icon"><i class="bi bi-arrow-up-right"></i></div>
+              </div>
+              <p class="mega-card-desc">Retrieval-augmented generation for trusted knowledge.</p>
+            </a>
+            <a href="ai-rag.html#agentic" class="mega-card">
+              <div class="mega-card-top">
+                <div class="mega-card-icon"><i class="bi bi-robot"></i></div>
+                <h5 class="mega-card-title">Agentic Workflows</h5>
+                <div class="mega-card-cta-icon"><i class="bi bi-arrow-up-right"></i></div>
+              </div>
+              <p class="mega-card-desc">Multi-step AI agents with human-in-the-loop approvals.</p>
+            </a>
+            <a href="ai-rag.html#doc-intel" class="mega-card">
+              <div class="mega-card-top">
+                <div class="mega-card-icon"><i class="bi bi-file-earmark-text"></i></div>
+                <h5 class="mega-card-title">Document Intelligence</h5>
+                <div class="mega-card-cta-icon"><i class="bi bi-arrow-up-right"></i></div>
+              </div>
+              <p class="mega-card-desc">PDF processing, classification, and extraction workflows.</p>
+            </a>
+          </div>
+
+          <div class="mega-col">
+            <h6>Product &amp; Fintech</h6>
+            <a href="ai-native-saas.html" class="mega-card highlight">
+              <div class="mega-card-top">
+                <div class="mega-card-icon"><i class="bi bi-cloud"></i></div>
+                <h5 class="mega-card-title">AI-Native SaaS Engineering</h5>
+                <div class="mega-card-cta-icon"><i class="bi bi-arrow-up-right"></i></div>
+              </div>
+              <p class="mega-card-desc">Design, build, and scale SaaS with AI-enabled features.</p>
+            </a>
+            <a href="fintech-open-banking.html" class="mega-card">
+              <div class="mega-card-top">
+                <div class="mega-card-icon"><i class="bi bi-bank"></i></div>
+                <h5 class="mega-card-title">Fintech &amp; Open Banking</h5>
+                <div class="mega-card-cta-icon"><i class="bi bi-arrow-up-right"></i></div>
+              </div>
+              <p class="mega-card-desc">Lending, onboarding, payments, and open finance solutions.</p>
+            </a>
+            <a href="embedded-finance.html" class="mega-card">
+              <div class="mega-card-top">
+                <div class="mega-card-icon"><i class="bi bi-puzzle"></i></div>
+                <h5 class="mega-card-title">Embedded Finance Platforms</h5>
+                <div class="mega-card-cta-icon"><i class="bi bi-arrow-up-right"></i></div>
+              </div>
+              <p class="mega-card-desc">Payments, credit, and financial workflows inside your product.</p>
+            </a>
+            <a href="api-integration.html" class="mega-card">
+              <div class="mega-card-top">
+                <div class="mega-card-icon"><i class="bi bi-plug"></i></div>
+                <h5 class="mega-card-title">API Integration &amp; Automation</h5>
+                <div class="mega-card-cta-icon"><i class="bi bi-arrow-up-right"></i></div>
+              </div>
+              <p class="mega-card-desc">Connect CRMs, ERPs, banking systems, and payment gateways.</p>
+            </a>
+            <a href="platform-engineering.html" class="mega-card">
+              <div class="mega-card-top">
+                <div class="mega-card-icon"><i class="bi bi-boxes"></i></div>
+                <h5 class="mega-card-title">Platform Engineering</h5>
+                <div class="mega-card-cta-icon"><i class="bi bi-arrow-up-right"></i></div>
+              </div>
+              <p class="mega-card-desc">Reusable digital foundations, shared services, and APIs.</p>
+            </a>
+          </div>
+
+          <div class="mega-col">
+            <h6>Cloud, Data &amp; Modernization</h6>
+            <a href="cloud-devops-ai-infra.html" class="mega-card">
+              <div class="mega-card-top">
+                <div class="mega-card-icon"><i class="bi bi-hdd-stack"></i></div>
+                <h5 class="mega-card-title">Cloud, DevOps &amp; AI Infrastructure</h5>
+                <div class="mega-card-cta-icon"><i class="bi bi-arrow-up-right"></i></div>
+              </div>
+              <p class="mega-card-desc">CI/CD, containers, observability, MLOps, and LLMOps.</p>
+            </a>
+            <a href="data-engineering-ml.html" class="mega-card">
+              <div class="mega-card-top">
+                <div class="mega-card-icon"><i class="bi bi-bar-chart"></i></div>
+                <h5 class="mega-card-title">Data Engineering &amp; ML</h5>
+                <div class="mega-card-cta-icon"><i class="bi bi-arrow-up-right"></i></div>
+              </div>
+              <p class="mega-card-desc">Pipelines, analytics engines, prediction models, and decision intelligence.</p>
+            </a>
+            <a href="legacy-modernization.html" class="mega-card highlight">
+              <div class="mega-card-top">
+                <div class="mega-card-icon"><i class="bi bi-arrow-repeat"></i></div>
+                <h5 class="mega-card-title">Legacy Software Modernization</h5>
+                <div class="mega-card-cta-icon"><i class="bi bi-arrow-up-right"></i></div>
+              </div>
+              <p class="mega-card-desc">Re-engineer outdated apps, create API layers, and prepare for AI.</p>
+            </a>
+            <a href="technology-implementation.html" class="mega-card">
+              <div class="mega-card-top">
+                <div class="mega-card-icon"><i class="bi bi-rocket-takeoff"></i></div>
+                <h5 class="mega-card-title">Technology Implementation</h5>
+                <div class="mega-card-cta-icon"><i class="bi bi-arrow-up-right"></i></div>
+              </div>
+              <p class="mega-card-desc">Implement platforms, migrate systems, train users, and launch.</p>
+            </a>
+            <a href="solution-accelerators.html" class="mega-card highlight">
+              <div class="mega-card-top">
+                <div class="mega-card-icon"><i class="bi bi-lightning-charge"></i></div>
+                <h5 class="mega-card-title">Solution Accelerators</h5>
+                <div class="mega-card-cta-icon"><i class="bi bi-arrow-up-right"></i></div>
+              </div>
+              <p class="mega-card-desc">Reusable building blocks for faster AI, fintech, and SaaS delivery.</p>
+            </a>
+          </div>
+        </div>
+
+        <a href="solutions.html" class="nav-link-aparajayah mobile-only">Solutions</a>
+        <a href="industries.html" class="nav-link-aparajayah">Industries</a>
+        <a href="technology.html" class="nav-link-aparajayah">Technology</a>
+        <a href="insights.html" class="nav-link-aparajayah">Insights</a>
+        <a href="about.html" class="nav-link-aparajayah">About</a>
+      </div>
+
+      <div class="nav-cta-aparajayah">
+        <a href="contact.html" class="btn-aparajayah btn-aparajayah-outline">Request Demo</a>
+        <a href="contact.html" class="btn-aparajayah btn-aparajayah-primary">Talk to Experts</a>
+        <button class="mobile-toggle-aparajayah" id="mobileToggle" aria-label="Toggle menu"><i class="bi bi-list"></i></button>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<div class="mobile-nav-aparajayah" id="mobileNav">
+  <a href="index.html">Home</a>
+  <a href="solutions.html">Solutions</a>
+  <a href="industries.html">Industries</a>
+  <a href="technology.html">Technology</a>
+  <a href="insights.html">Insights</a>
+  <a href="about.html">About</a>
+  <a href="contact.html">Contact</a>
+</div>
+
+<main>
+
+  <!-- ===================== BREADCRUMB ===================== -->
+  <div class="breadcrumb-bar">
+    <div class="container-aparajayah">
+      <div class="breadcrumb-inner">
+        <a href="index.html">Home</a>
+        <span class="sep"><i class="bi bi-chevron-right"></i></span>
+        <a href="solutions.html">Solutions</a>
+        <span class="sep"><i class="bi bi-chevron-right"></i></span>
+        <a href="cloud-devops-ai-infra.html">Cloud, Data &amp; Modernization</a>
+        <span class="sep"><i class="bi bi-chevron-right"></i></span>
+        <span class="current">Legacy Software Modernization</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===================== HERO (DARK) ===================== -->
+  <section class="mz-hero">
+    <div class="container-aparajayah">
+      <div class="row">
+        <div class="col-lg-9">
+          <span class="eyebrow">Modernization</span>
+          <h1>Modernize Legacy Software into AI-Ready Platforms</h1>
+          <p>
+            We help businesses upgrade outdated applications, databases, workflows, and interfaces into secure, scalable, API-driven, cloud-ready, and AI-enabled digital platforms.
+          </p>
+          <div class="hero-ctas-aparajayah">
+            <a href="contact.html" class="btn-aparajayah btn-aparajayah-primary btn-aparajayah-lg">
+              Modernize Your Platform <i class="bi bi-arrow-right"></i>
+            </a>
+            <a href="contact.html" class="btn-aparajayah btn-aparajayah-outline btn-aparajayah-lg">
+              Request a Technical Assessment
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== SECTION 01 — MODERNIZATION-FIRST (DARK vertical timeline) ===================== -->
+  <section class="mz-vtl-section">
+    <div class="container-aparajayah">
+
+      <div class="mz-vtl-header reveal-aparajayah">
+        <span class="eyebrow eyebrow-cyan">Modernization-First Approach</span>
+        <h2 class="mz-vtl-title">
+          Turn legacy systems into
+          <span class="mz-vtl-accent">AI-ready platforms.</span>
+        </h2>
+        <p class="mz-vtl-subtitle">
+          Old software holds back growth. We transform it — not replace it — into secure, API-driven, cloud-ready platforms that support AI, analytics, and scale.
+        </p>
+      </div>
+
+      <!-- Vertical spine -->
+      <div class="mz-vtl-spine reveal-aparajayah">
+
+        <div class="mz-vtl-row">
+          <div class="mz-vtl-content mz-vtl-content-left">
+            <div class="mz-vtl-card mz-vtl-card-legacy">
+              <div class="mz-vtl-tag">
+                <span class="mz-vtl-dot mz-vtl-dot-red"></span>
+                Before · Legacy
+              </div>
+              <h3>Monolithic · Slow · Siloed</h3>
+              <p>Legacy systems hold back teams with rigid code, manual workflows, and no way to add AI or analytics.</p>
+              <ul class="mz-vtl-list mz-vtl-list-legacy">
+                <li><i class="bi bi-x-circle-fill"></i> Monolithic codebase</li>
+                <li><i class="bi bi-x-circle-fill"></i> Manual workflows</li>
+                <li><i class="bi bi-x-circle-fill"></i> Siloed data</li>
+                <li><i class="bi bi-x-circle-fill"></i> No AI readiness</li>
+              </ul>
+            </div>
+          </div>
+          <div class="mz-vtl-marker">
+            <div class="mz-vtl-marker-dot mz-vtl-marker-red"></div>
+          </div>
+          <div class="mz-vtl-spacer"></div>
+        </div>
+
+        <div class="mz-vtl-row">
+          <div class="mz-vtl-spacer"></div>
+          <div class="mz-vtl-marker">
+            <div class="mz-vtl-marker-core">
+              <i class="bi bi-arrow-down"></i>
+            </div>
+          </div>
+          <div class="mz-vtl-content mz-vtl-content-right">
+            <div class="mz-vtl-transform-card">
+              <span class="mz-vtl-transform-label">Modernize</span>
+              <h4>Structured migration path</h4>
+              <div class="mz-vtl-steps">
+                <span>Assess</span>
+                <i class="bi bi-arrow-right"></i>
+                <span>Architect</span>
+                <i class="bi bi-arrow-right"></i>
+                <span>Migrate</span>
+                <i class="bi bi-arrow-right"></i>
+                <span>Enable AI</span>
+                <i class="bi bi-arrow-right"></i>
+                <span>Scale</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="mz-vtl-row">
+          <div class="mz-vtl-content mz-vtl-content-left">
+            <div class="mz-vtl-card mz-vtl-card-modern">
+              <div class="mz-vtl-tag">
+                <span class="mz-vtl-dot mz-vtl-dot-green"></span>
+                After · AI-Ready
+              </div>
+              <h3>Modular · Fast · Intelligent</h3>
+              <p>Modern, API-driven platforms with cloud infrastructure and built-in AI — ready for what's next.</p>
+              <div class="mz-vtl-tiles">
+                <div class="mz-vtl-tile"><i class="bi bi-cloud-check-fill"></i><span>Cloud</span></div>
+                <div class="mz-vtl-tile"><i class="bi bi-plug-fill"></i><span>APIs</span></div>
+                <div class="mz-vtl-tile"><i class="bi bi-cpu-fill"></i><span>AI</span></div>
+                <div class="mz-vtl-tile"><i class="bi bi-shield-lock-fill"></i><span>Secure</span></div>
+              </div>
+              <ul class="mz-vtl-list mz-vtl-list-modern">
+                <li><i class="bi bi-check-circle-fill"></i> Modular architecture</li>
+                <li><i class="bi bi-check-circle-fill"></i> Automated workflows</li>
+                <li><i class="bi bi-check-circle-fill"></i> Unified data layer</li>
+                <li><i class="bi bi-check-circle-fill"></i> RAG &amp; AI enabled</li>
+              </ul>
+            </div>
+          </div>
+          <div class="mz-vtl-marker">
+            <div class="mz-vtl-marker-dot mz-vtl-marker-green"></div>
+          </div>
+          <div class="mz-vtl-spacer"></div>
+        </div>
+
+      </div>
+
+      <!-- Capability pills -->
+      <div class="mz-vtl-caps reveal-aparajayah">
+        <div class="mz-vtl-cap"><i class="bi bi-file-earmark-code"></i> Legacy assessment</div>
+        <div class="mz-vtl-cap"><i class="bi bi-vector-pen"></i> UI/UX redesign</div>
+        <div class="mz-vtl-cap"><i class="bi bi-braces"></i> API layer</div>
+        <div class="mz-vtl-cap"><i class="bi bi-database-gear"></i> Data migration</div>
+        <div class="mz-vtl-cap"><i class="bi bi-cloud-arrow-up"></i> Cloud migration</div>
+        <div class="mz-vtl-cap"><i class="bi bi-cpu"></i> RAG &amp; AI enablement</div>
+        <div class="mz-vtl-cap"><i class="bi bi-shield-lock"></i> Security</div>
+        <div class="mz-vtl-cap"><i class="bi bi-infinity"></i> DevOps &amp; support</div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ===================== SECTION 02 — SIGNS (LIGHT slate) ===================== -->
+  <section class="mz-signs-section">
+    <div class="container-aparajayah">
+
+      <div class="mz-signs-header reveal-aparajayah">
+        <span class="eyebrow">Signals</span>
+        <h2>Eight signs it's time to <span class="gradient-accent-warn">modernize.</span></h2>
+        <p>If any of these sound familiar, legacy systems are costing you time, money, and opportunity.</p>
+      </div>
+
+      <div class="mz-signs-grid">
+        <div class="mz-sign-item reveal-aparajayah">
+          <div class="mz-sign-item-icon"><i class="bi bi-speedometer2"></i></div>
+          <div class="mz-sign-item-body">
+            <h4>Slow &amp; Outdated</h4>
+            <p>Software that is slow, outdated, or difficult to maintain.</p>
+          </div>
+          <div class="mz-sign-item-arrow"><i class="bi bi-arrow-right"></i></div>
+        </div>
+        <div class="mz-sign-item reveal-aparajayah reveal-delay-1">
+          <div class="mz-sign-item-icon"><i class="bi bi-plug"></i></div>
+          <div class="mz-sign-item-body">
+            <h4>Lacks Modern APIs</h4>
+            <p>No APIs or integrations for modern workflows.</p>
+          </div>
+          <div class="mz-sign-item-arrow"><i class="bi bi-arrow-right"></i></div>
+        </div>
+        <div class="mz-sign-item reveal-aparajayah">
+          <div class="mz-sign-item-icon"><i class="bi bi-database"></i></div>
+          <div class="mz-sign-item-body">
+            <h4>Database Limits</h4>
+            <p>Database structure restricts reporting and analytics.</p>
+          </div>
+          <div class="mz-sign-item-arrow"><i class="bi bi-arrow-right"></i></div>
+        </div>
+        <div class="mz-sign-item reveal-aparajayah reveal-delay-1">
+          <div class="mz-sign-item-icon"><i class="bi bi-person-x"></i></div>
+          <div class="mz-sign-item-body">
+            <h4>Poor Interface</h4>
+            <p>Users complain about usability and old UI.</p>
+          </div>
+          <div class="mz-sign-item-arrow"><i class="bi bi-arrow-right"></i></div>
+        </div>
+        <div class="mz-sign-item reveal-aparajayah">
+          <div class="mz-sign-item-icon"><i class="bi bi-lock"></i></div>
+          <div class="mz-sign-item-body">
+            <h4>Hard to Secure</h4>
+            <p>Difficult to secure or scale the platform.</p>
+          </div>
+          <div class="mz-sign-item-arrow"><i class="bi bi-arrow-right"></i></div>
+        </div>
+        <div class="mz-sign-item reveal-aparajayah reveal-delay-1">
+          <div class="mz-sign-item-icon"><i class="bi bi-robot"></i></div>
+          <div class="mz-sign-item-body">
+            <h4>Not AI-Ready</h4>
+            <p>You want AI features but the system isn't ready.</p>
+          </div>
+          <div class="mz-sign-item-arrow"><i class="bi bi-arrow-right"></i></div>
+        </div>
+        <div class="mz-sign-item reveal-aparajayah">
+          <div class="mz-sign-item-icon"><i class="bi bi-wrench"></i></div>
+          <div class="mz-sign-item-body">
+            <h4>High Maintenance</h4>
+            <p>Developers spend too much time fixing old code.</p>
+          </div>
+          <div class="mz-sign-item-arrow"><i class="bi bi-arrow-right"></i></div>
+        </div>
+        <div class="mz-sign-item reveal-aparajayah reveal-delay-1">
+          <div class="mz-sign-item-icon"><i class="bi bi-diagram-3"></i></div>
+          <div class="mz-sign-item-body">
+            <h4>Disconnected Systems</h4>
+            <p>Tools don't talk to each other — data is siloed.</p>
+          </div>
+          <div class="mz-sign-item-arrow"><i class="bi bi-arrow-right"></i></div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ===================== SECTION 03 — SERVICES (LIGHT + side mockup) ===================== -->
+  <section class="mz-services-section">
+    <div class="container-aparajayah">
+
+      <div class="mz-services-header reveal-aparajayah">
+        <span class="eyebrow">Modernization Services</span>
+        <h2>Six disciplines that turn <span class="gradient-accent-blue">legacy into leverage.</span></h2>
+        <p>A phased, structured approach — each service engineered to reduce risk and unlock AI readiness.</p>
+      </div>
+
+      <div class="mz-services-layout">
+
+        <!-- Left: services list -->
+        <div class="mz-services-list">
+          <div class="mz-service-row reveal-aparajayah">
+            <div class="mz-service-num">01</div>
+            <div class="mz-service-body">
+              <h4>Application Assessment</h4>
+              <p>Review architecture, code quality, database, security, performance, UX, and business risks.</p>
+            </div>
+            <div class="mz-service-icon"><i class="bi bi-file-earmark-code"></i></div>
+          </div>
+
+          <div class="mz-service-row reveal-aparajayah reveal-delay-1">
+            <div class="mz-service-num">02</div>
+            <div class="mz-service-body">
+              <h4>UI/UX Redesign</h4>
+              <p>Modernize interfaces, dashboards, forms, navigation, responsive layouts, and user journeys.</p>
+            </div>
+            <div class="mz-service-icon"><i class="bi bi-vector-pen"></i></div>
+          </div>
+
+          <div class="mz-service-row reveal-aparajayah">
+            <div class="mz-service-num">03</div>
+            <div class="mz-service-body">
+              <h4>Architecture Re-Engineering</h4>
+              <p>Improve backend structure, modularity, APIs, data models, performance, and scalability.</p>
+            </div>
+            <div class="mz-service-icon"><i class="bi bi-diagram-3"></i></div>
+          </div>
+
+          <div class="mz-service-row reveal-aparajayah reveal-delay-1">
+            <div class="mz-service-num">04</div>
+            <div class="mz-service-body">
+              <h4>Database Migration</h4>
+              <p>Clean, migrate, normalize, and structure data for modern apps, reporting, and AI readiness.</p>
+            </div>
+            <div class="mz-service-icon"><i class="bi bi-database-gear"></i></div>
+          </div>
+
+          <div class="mz-service-row reveal-aparajayah">
+            <div class="mz-service-num">05</div>
+            <div class="mz-service-body">
+              <h4>Cloud Migration</h4>
+              <p>Move applications and infrastructure to reliable cloud environments with monitoring automation.</p>
+            </div>
+            <div class="mz-service-icon"><i class="bi bi-cloud-arrow-up"></i></div>
+          </div>
+
+          <div class="mz-service-row reveal-aparajayah reveal-delay-1">
+            <div class="mz-service-num">06</div>
+            <div class="mz-service-body">
+              <h4>AI Enablement</h4>
+              <p>Add RAG search, AI assistants, automated reporting, document intelligence, and analytics.</p>
+            </div>
+            <div class="mz-service-icon"><i class="bi bi-cpu"></i></div>
+          </div>
+        </div>
+
+        <!-- Right: side mockup -->
+        <div class="mz-services-side reveal-aparajayah">
+          <div class="mz-side-label">
+            <i class="bi bi-activity"></i>
+            Modernization Progress
+          </div>
+
+          <div class="mz-side-mock">
+            <div class="mz-side-row">
+              <i class="bi bi-file-earmark-code"></i>
+              <span>Legacy audit complete</span>
+              <div class="mz-side-check">✓</div>
+            </div>
+            <div class="mz-side-row">
+              <i class="bi bi-diagram-3"></i>
+              <span>Architecture mapped</span>
+              <div class="mz-side-check">✓</div>
+            </div>
+            <div class="mz-side-row">
+              <i class="bi bi-database-gear"></i>
+              <span>Data migration running</span>
+              <div class="mz-side-check">✓</div>
+            </div>
+            <div class="mz-side-row">
+              <i class="bi bi-cloud-arrow-up"></i>
+              <span>Cloud deployment ready</span>
+              <div class="mz-side-check">✓</div>
+            </div>
+            <div class="mz-side-row">
+              <i class="bi bi-cpu"></i>
+              <span>RAG &amp; AI enablement</span>
+              <div class="mz-side-check">✓</div>
+            </div>
+          </div>
+
+          <div class="mz-side-progress">
+            <div class="mz-side-progress-label">
+              <span>Migration progress</span>
+              <strong>72%</strong>
+            </div>
+            <div class="mz-side-progress-bar">
+              <div class="mz-side-progress-fill"></div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ===================== SECTION 04 — ROADMAP (LIGHT slate) ===================== -->
+  <section class="mz-roadmap-section">
+    <div class="container-aparajayah">
+
+      <div class="mz-roadmap-header reveal-aparajayah">
+        <span class="eyebrow">Modernization Roadmap</span>
+        <h2>A phased path that reduces <span class="gradient-accent-blue">business disruption.</span></h2>
+        <p>Five stages. One journey. From audit to a fully scalable AI-ready platform.</p>
+      </div>
+
+      <div class="mz-roadmap-track reveal-aparajayah">
+        <div class="mz-roadmap-stage">
+          <div class="mz-roadmap-num">01</div>
+          <div class="mz-roadmap-icon"><i class="bi bi-search"></i></div>
+          <h4>Assess</h4>
+          <p>Audit code, data, workflows, and risks.</p>
+        </div>
+        <div class="mz-roadmap-stage">
+          <div class="mz-roadmap-num">02</div>
+          <div class="mz-roadmap-icon"><i class="bi bi-diagram-3"></i></div>
+          <h4>Architect</h4>
+          <p>Design APIs, data models, and new UI/UX.</p>
+        </div>
+        <div class="mz-roadmap-stage">
+          <div class="mz-roadmap-num">03</div>
+          <div class="mz-roadmap-icon"><i class="bi bi-database-gear"></i></div>
+          <h4>Migrate</h4>
+          <p>Clean, transform, and move data safely.</p>
+        </div>
+        <div class="mz-roadmap-stage">
+          <div class="mz-roadmap-num">04</div>
+          <div class="mz-roadmap-icon"><i class="bi bi-cpu"></i></div>
+          <h4>Enable AI</h4>
+          <p>Add RAG, assistants, and analytics.</p>
+        </div>
+        <div class="mz-roadmap-stage">
+          <div class="mz-roadmap-num">05</div>
+          <div class="mz-roadmap-icon"><i class="bi bi-rocket-takeoff"></i></div>
+          <h4>Scale</h4>
+          <p>Deploy with DevOps, monitoring, support.</p>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ===================== SECTION 05 — FAQ (LIGHT white) ===================== -->
+  <section class="mz-faq-section">
+    <div class="container-aparajayah">
+
+      <div class="mz-faq-header reveal-aparajayah">
+        <span class="eyebrow">FAQs</span>
+        <h2>Common questions about <span class="gradient-accent-blue">modernization.</span></h2>
+      </div>
+
+      <div class="mz-faq-item reveal-aparajayah">
+        <button class="mz-faq-q">
+          <span>Can you modernize without a full rewrite?</span>
+          <i class="bi bi-plus-lg"></i>
+        </button>
+        <div class="mz-faq-a">Yes. We use a phased approach — building API layers, redesigning UI, and migrating data incrementally — so you don't need to rebuild everything at once.</div>
+      </div>
+      <div class="mz-faq-item reveal-aparajayah">
+        <button class="mz-faq-q">
+          <span>Will we lose our existing data?</span>
+          <i class="bi bi-plus-lg"></i>
+        </button>
+        <div class="mz-faq-a">No. Data migration is planned, validated, and tested before cutover. We preserve data integrity and provide rollback paths throughout the transition.</div>
+      </div>
+      <div class="mz-faq-item reveal-aparajayah">
+        <button class="mz-faq-q">
+          <span>How long does modernization take?</span>
+          <i class="bi bi-plus-lg"></i>
+        </button>
+        <div class="mz-faq-a">Timelines vary by scope — a focused modernization (UI + APIs) can take 3–6 months; enterprise-wide migration with AI enablement typically takes 6–12 months, delivered in phases.</div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ===================== SECTION 06 — CTA BANNER (DARK) ===================== -->
+  <section class="mz-cta-section">
+    <div class="container-aparajayah">
+      <div class="mz-cta-banner reveal-aparajayah">
+        <div class="mz-cta-inner">
+          <h2>Ready to modernize your platform?</h2>
+          <p>Share your current system and we'll help you plan a phased modernization path — with clear milestones, risks, and outcomes.</p>
+          <div class="hero-ctas-aparajayah">
+            <a href="contact.html" class="btn-aparajayah btn-aparajayah-primary btn-aparajayah-lg">
+              Start Your Modernization <i class="bi bi-arrow-right"></i>
+            </a>
+            <a href="contact.html" class="btn-aparajayah btn-aparajayah-outline btn-aparajayah-lg">
+              Request a Technical Audit
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<!-- ===================== FOOTER ===================== -->
+<footer class="footer-aparajayah">
+  <div class="container-aparajayah">
+    <div class="footer-grid-aparajayah">
+      <div class="footer-brand-aparajayah">
+        <a href="index.html" class="logo-aparajayah"><img src="../images/logo1.png" alt="Aparajayah" class="logo-new"/></a>
+        <p>Aparajayah Technologies helps businesses design, build, integrate, and scale AI-native digital platforms across SaaS, fintech, open banking, machine learning, enterprise automation, cloud, and DevOps.</p>
+      </div>
+      <div class="footer-col-aparajayah">
+        <h5>Solutions</h5>
+        <a href="rag-knowledge-intelligence.html">RAG Knowledge Intelligence</a>
+        <a href="ai-native-saas.html">AI-Native SaaS</a>
+        <a href="fintech-open-banking.html">Fintech &amp; Open Banking</a>
+        <a href="embedded-finance.html">Embedded Finance</a>
+        <a href="legacy-modernization.html">Legacy Modernization</a>
+      </div>
+      <div class="footer-col-aparajayah">
+        <h5>Company</h5>
+        <a href="about.html">About</a>
+        <a href="about.html#careers">Careers</a>
+        <a href="insights.html">Insights</a>
+        <a href="about.html#case-studies">Case Studies</a>
+        <a href="contact.html">Contact</a>
+      </div>
+      <div class="footer-col-aparajayah">
+        <h5>Resources</h5>
+        <a href="technology.html">Technology</a>
+        <a href="industries.html">Industries</a>
+        <a href="about.html#faq">FAQ</a>
+        <a href="contact.html">Request Consultation</a>
+        <a href="solution-accelerators.html">Solution Accelerators</a>
+      </div>
+    </div>
+    <div class="footer-bottom-aparajayah">
+      <span>© 2026 Aparajayah Technologies. All rights reserved.</span>
+      <div>
+        <a href="about.html#legal">Privacy Policy</a>
+        <a href="about.html#legal">Terms of Use</a>
+        <a href="about.html#legal">Cookie Policy</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script src="../js/main.js"></script>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    // Custom FAQ accordion
+    document.querySelectorAll('.mz-faq-item').forEach(function(item) {
+      var btn = item.querySelector('.mz-faq-q');
+      if (!btn) return;
+      btn.addEventListener('click', function() {
+        var isOpen = item.classList.contains('open');
+        document.querySelectorAll('.mz-faq-item').forEach(function(other) {
+          other.classList.remove('open');
+        });
+        if (!isOpen) item.classList.add('open');
+      });
+    });
+
+    // Mega menu hover persistence
+    document.querySelectorAll('.mega-trigger').forEach(function(trigger) {
+      var panel = trigger.nextElementSibling;
+      if (!panel || !panel.classList.contains('mega-panel')) return;
+      var closeTimeout;
+      function openPanel() {
+        clearTimeout(closeTimeout);
+        panel.style.opacity = '1';
+        panel.style.visibility = 'visible';
+        panel.style.pointerEvents = 'auto';
+        panel.style.transform = 'translateX(-50%) translateY(0) scale(1)';
+      }
+      function closePanel() {
+        closeTimeout = setTimeout(function() {
+          if (!panel.matches(':hover')) {
+            panel.style.opacity = '0';
+            panel.style.visibility = 'hidden';
+            panel.style.pointerEvents = 'none';
+            panel.style.transform = 'translateX(-50%) translateY(10px) scale(0.98)';
+          }
+        }, 140);
+      }
+      trigger.addEventListener('mouseenter', openPanel);
+      trigger.addEventListener('mouseleave', closePanel);
+      panel.addEventListener('mouseenter', function() { clearTimeout(closeTimeout); openPanel(); });
+      panel.addEventListener('mouseleave', closePanel);
+    });
+
+    // Mobile nav toggle
+    var toggle = document.getElementById('mobileToggle');
+    var mobileNav = document.getElementById('mobileNav');
+    if (toggle && mobileNav) {
+      toggle.addEventListener('click', function() {
+        var isOpen = mobileNav.style.display === 'block';
+        mobileNav.style.display = isOpen ? 'none' : 'block';
+      });
+    }
+
+    // Reveal on scroll
+    if ('IntersectionObserver' in window) {
+      var observer = new IntersectionObserver(function(entries) {
+        entries.forEach(function(entry) {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('visible');
+            observer.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+      document.querySelectorAll('.reveal-aparajayah').forEach(function(el) { observer.observe(el); });
+    } else {
+      document.querySelectorAll('.reveal-aparajayah').forEach(function(el) { el.classList.add('visible'); });
+    }
+  });
+</script>
+</body>
+</html>
